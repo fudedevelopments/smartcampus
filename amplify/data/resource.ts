@@ -1,4 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { createUser } from '../functions/createuser/resources';
+import { listUsersInGroup } from '../functions/listusersingroup/resource';
 
 const schema = a.schema({
   StudentsUserProfile: a.model({
@@ -60,7 +62,28 @@ const schema = a.schema({
     allow.ownerDefinedIn('Proctor'),
     allow.ownerDefinedIn('Ac'),
     allow.ownerDefinedIn('Hod'),
-  ])
+    ]),
+  
+  
+    createUser: a
+    .mutation()
+    .arguments({
+      username: a.string().required(),
+      email: a.email().required(),
+      password: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(createUser))
+    .returns(a.json()),
+    
+  listUsersInGroup: a
+    .query()
+    .arguments({
+      groupName: a.string().required(),
+    })
+    .authorization((allow) => [allow.group("ADMINS")])
+    .handler(a.handler.function(listUsersInGroup))
+    .returns(a.json()),
 
 });
 

@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smartcampus/home/ui/home.dart';
+import 'package:smartcampus/home/ui/homeUI.dart';
 import 'package:smartcampus/landing_page/landiing_bloc/landing_page_bloc.dart';
 import 'package:smartcampus/onduty/ui/ondutyUI.dart';
 import 'package:smartcampus/profile/ui/profileUI.dart';
