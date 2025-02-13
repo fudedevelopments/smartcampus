@@ -1,9 +1,24 @@
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:smartcampus/bloc/repo/userprofilerepo.dart';
+import 'package:smartcampus/landing_page/ui/landing_page.dart';
 import 'package:smartcampus/models/ModelProvider.dart';
+import 'package:smartcampus/utils/firebaseapi.dart';
+import 'package:smartcampus/utils/utils.dart';
+
+class AddAssetDialogueController extends GetxController {
+  RxBool loading = false.obs;
+}
 
 class StudentForm extends StatefulWidget {
+  final String userId;
+  final String email;
+  final AddAssetDialogueController controller = Get.put(AddAssetDialogueController());
+
+   StudentForm({super.key, required this.userId, required this.email});
+
   @override
   _StudentFormState createState() => _StudentFormState();
 }
@@ -28,15 +43,12 @@ class _StudentFormState extends State<StudentForm> {
   String? selectedProctorId;
   String? selectedACId;
   String? selectedHODId;
-  String email = '';
-  String name = '';
-  String regNo = '';
+  String enteredemail = '';
+  String enteredname = '';
+  String enteredregNo = '';
 
   List<StaffUserProfile> staffList = [];
-  List<String> departments = [];
-  List<StaffUserProfile> proctors = [];
-  List<StaffUserProfile> academicCoordinators = [];
-  List<StaffUserProfile> hods = [];
+  List<String> departments = ["ECE"];
   bool isLoading = true;
   String? errorMessage;
 
@@ -50,22 +62,8 @@ class _StudentFormState extends State<StudentForm> {
     try {
       final staff = await getAllStaffProfile();
 
-      final uniqueDepartments = staff
-          .map((s) => s.department)
-          .where((d) => d != null)
-          .toSet()
-          .toList();
-
-      final proctors = staff.where((s) => s.name == 'Proctor').toList();
-      final acs = staff.where((s) => s.name == 'Academic Coordinator').toList();
-      final hods = staff.where((s) => s.name == 'HOD').toList();
-
       setState(() {
         this.staffList = staff;
-        this.departments = uniqueDepartments.cast<String>();
-        this.proctors = proctors;
-        this.academicCoordinators = acs;
-        this.hods = hods;
         isLoading = false;
       });
     } catch (e) {
@@ -127,7 +125,7 @@ class _StudentFormState extends State<StudentForm> {
                   }
                   return null;
                 },
-                onSaved: (value) => email = value!,
+                onSaved: (value) => enteredemail = value!,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -141,7 +139,7 @@ class _StudentFormState extends State<StudentForm> {
                   }
                   return null;
                 },
-                onSaved: (value) => name = value!,
+                onSaved: (value) => enteredname = value!,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -155,7 +153,7 @@ class _StudentFormState extends State<StudentForm> {
                   }
                   return null;
                 },
-                onSaved: (value) => regNo = value!,
+                onSaved: (value) => enteredregNo = value!,
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
@@ -206,10 +204,10 @@ class _StudentFormState extends State<StudentForm> {
                   border: OutlineInputBorder(),
                 ),
                 value: selectedProctorId,
-                items: proctors.map((proctor) {
+                items: staffList.map((proctor) {
                   return DropdownMenuItem<String>(
                     value: proctor.id,
-                    child: Text(proctor.name ),
+                    child: Text(proctor.name),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -227,10 +225,10 @@ class _StudentFormState extends State<StudentForm> {
                   border: OutlineInputBorder(),
                 ),
                 value: selectedACId,
-                items: academicCoordinators.map((ac) {
+                items: staffList.map((ac) {
                   return DropdownMenuItem<String>(
                     value: ac.id,
-                    child: Text(ac.name ?? 'Unnamed AC'),
+                    child: Text(ac.name),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -247,10 +245,10 @@ class _StudentFormState extends State<StudentForm> {
                   border: OutlineInputBorder(),
                 ),
                 value: selectedHODId,
-                items: hods.map((hod) {
+                items: staffList.map((hod) {
                   return DropdownMenuItem<String>(
                     value: hod.id,
-                    child: Text(hod.name ?? 'Unnamed HOD'),
+                    child: Text(hod.name),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -262,27 +260,53 @@ class _StudentFormState extends State<StudentForm> {
                     value == null ? 'Please select HOD' : null,
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Colors.blue,
+              Obx(
+                () => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Colors.blue,
+                  ),
+                  onPressed: () async {
+                    final firebasetoken = FirebaseApi().token;
+                    if (_formKey.currentState!.validate() &&
+                        firebasetoken != null) {
+                      _formKey.currentState!.save();
+                      widget.controller.loading.value = true;
+                      final response = await UserProfileRepo()
+                          .createUserProfile(
+                              userprofile: StudentsUserProfile(
+                                  id: widget.userId,
+                                  name: enteredname,
+                                  regNo: enteredregNo,
+                                  email: enteredemail,
+                                  department: selectedDepartmentId!,
+                                  year: selectedYear!,
+                                  Proctor: selectedProctorId!,
+                                  Ac: selectedACId!,
+                                  Hod: selectedHODId!,
+                                  deviceToken: firebasetoken));
+                      if (response.data != null) {
+                        widget.controller.loading.value = false;
+                        showsnakbar(context, "Registration Sucessful");
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LandingPage()),
+                          (route) => false, 
+                        );
+                      }
+                      if (response.hasErrors) {
+                        widget.controller.loading.value = false;
+                        showsnakbar(context, "something went wrong");
+                      }
+                    }
+                  },
+                  child: widget.controller.loading.value
+                      ? const SizedBox(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Text("submit"),
                 ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    // Process the form data with actual IDs
-                    print('Student Details:');
-                    print('Email: $email');
-                    print('Name: $name');
-                    print('Reg No: $regNo');
-                    print('Year: $selectedYear');
-                    print('Department ID: $selectedDepartmentId');
-                    print('Proctor ID: $selectedProctorId');
-                    print('AC ID: $selectedACId');
-                    print('HOD ID: $selectedHODId');
-                  }
-                },
-                child: const Text('Submit', style: TextStyle(fontSize: 18)),
               ),
             ],
           ),

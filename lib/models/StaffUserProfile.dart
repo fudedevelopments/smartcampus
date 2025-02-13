@@ -31,6 +31,7 @@ class StaffUserProfile extends amplify_core.Model {
   final String? _email;
   final String? _department;
   final String? _qualification;
+  final String? _deviceToken;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -99,6 +100,19 @@ class StaffUserProfile extends amplify_core.Model {
     }
   }
   
+  String get deviceToken {
+    try {
+      return _deviceToken!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
   amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -107,15 +121,16 @@ class StaffUserProfile extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const StaffUserProfile._internal({required this.id, required name, required email, required department, required qualification, createdAt, updatedAt}): _name = name, _email = email, _department = department, _qualification = qualification, _createdAt = createdAt, _updatedAt = updatedAt;
+  const StaffUserProfile._internal({required this.id, required name, required email, required department, required qualification, required deviceToken, createdAt, updatedAt}): _name = name, _email = email, _department = department, _qualification = qualification, _deviceToken = deviceToken, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory StaffUserProfile({String? id, required String name, required String email, required String department, required String qualification}) {
+  factory StaffUserProfile({String? id, required String name, required String email, required String department, required String qualification, required String deviceToken}) {
     return StaffUserProfile._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
       email: email,
       department: department,
-      qualification: qualification);
+      qualification: qualification,
+      deviceToken: deviceToken);
   }
   
   bool equals(Object other) {
@@ -130,7 +145,8 @@ class StaffUserProfile extends amplify_core.Model {
       _name == other._name &&
       _email == other._email &&
       _department == other._department &&
-      _qualification == other._qualification;
+      _qualification == other._qualification &&
+      _deviceToken == other._deviceToken;
   }
   
   @override
@@ -146,6 +162,7 @@ class StaffUserProfile extends amplify_core.Model {
     buffer.write("email=" + "$_email" + ", ");
     buffer.write("department=" + "$_department" + ", ");
     buffer.write("qualification=" + "$_qualification" + ", ");
+    buffer.write("deviceToken=" + "$_deviceToken" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -153,27 +170,30 @@ class StaffUserProfile extends amplify_core.Model {
     return buffer.toString();
   }
   
-  StaffUserProfile copyWith({String? name, String? email, String? department, String? qualification}) {
+  StaffUserProfile copyWith({String? name, String? email, String? department, String? qualification, String? deviceToken}) {
     return StaffUserProfile._internal(
       id: id,
       name: name ?? this.name,
       email: email ?? this.email,
       department: department ?? this.department,
-      qualification: qualification ?? this.qualification);
+      qualification: qualification ?? this.qualification,
+      deviceToken: deviceToken ?? this.deviceToken);
   }
   
   StaffUserProfile copyWithModelFieldValues({
     ModelFieldValue<String>? name,
     ModelFieldValue<String>? email,
     ModelFieldValue<String>? department,
-    ModelFieldValue<String>? qualification
+    ModelFieldValue<String>? qualification,
+    ModelFieldValue<String>? deviceToken
   }) {
     return StaffUserProfile._internal(
       id: id,
       name: name == null ? this.name : name.value,
       email: email == null ? this.email : email.value,
       department: department == null ? this.department : department.value,
-      qualification: qualification == null ? this.qualification : qualification.value
+      qualification: qualification == null ? this.qualification : qualification.value,
+      deviceToken: deviceToken == null ? this.deviceToken : deviceToken.value
     );
   }
   
@@ -183,11 +203,12 @@ class StaffUserProfile extends amplify_core.Model {
       _email = json['email'],
       _department = json['department'],
       _qualification = json['qualification'],
+      _deviceToken = json['deviceToken'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'email': _email, 'department': _department, 'qualification': _qualification, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'email': _email, 'department': _department, 'qualification': _qualification, 'deviceToken': _deviceToken, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -196,6 +217,7 @@ class StaffUserProfile extends amplify_core.Model {
     'email': _email,
     'department': _department,
     'qualification': _qualification,
+    'deviceToken': _deviceToken,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -206,20 +228,26 @@ class StaffUserProfile extends amplify_core.Model {
   static final EMAIL = amplify_core.QueryField(fieldName: "email");
   static final DEPARTMENT = amplify_core.QueryField(fieldName: "department");
   static final QUALIFICATION = amplify_core.QueryField(fieldName: "qualification");
+  static final DEVICETOKEN = amplify_core.QueryField(fieldName: "deviceToken");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "StaffUserProfile";
     modelSchemaDefinition.pluralName = "StaffUserProfiles";
     
     modelSchemaDefinition.authRules = [
       amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "owner",
-        identityClaim: "cognito:username",
+        authStrategy: amplify_core.AuthStrategy.GROUPS,
+        groupClaim: "cognito:groups",
+        groups: [ "STAFF" ],
         provider: amplify_core.AuthRuleProvider.USERPOOLS,
         operations: const [
           amplify_core.ModelOperation.CREATE,
           amplify_core.ModelOperation.UPDATE,
           amplify_core.ModelOperation.DELETE,
+          amplify_core.ModelOperation.READ
+        ]),
+      amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.PRIVATE,
+        operations: const [
           amplify_core.ModelOperation.READ
         ])
     ];
@@ -250,6 +278,12 @@ class StaffUserProfile extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: StaffUserProfile.QUALIFICATION,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: StaffUserProfile.DEVICETOKEN,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

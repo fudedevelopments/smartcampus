@@ -27,4 +27,19 @@ class UserProfileRepo {
       throw Exception("Unknown Error: $e");
     }
   }
+
+  Future<GraphQLResponse> createUserProfile({required StudentsUserProfile userprofile}) async {
+    try {
+      final createstudentuser = ModelMutations.create(userprofile);
+      final response =
+          await Amplify.API.mutate(request: createstudentuser).response;
+
+      if (response.errors.isNotEmpty) {
+        throw Exception("API Error: ${response.errors.first.message}");
+      }
+      return response;
+    } on Exception catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }

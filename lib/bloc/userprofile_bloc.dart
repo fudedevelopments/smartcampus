@@ -18,7 +18,10 @@ class UserprofileBloc extends Bloc<UserprofileEvent, UserprofileState> {
       final userProfile = await UserProfileRepo().getUserProfile(userId: event.userid);
 
       if (userProfile == null) {
-        emit(UserProfileEmptyState());
+        emit(UserProfileEmptyState(
+          userid: event.userid,
+          email: event.email
+        ));
       } else {
         emit(UserProfileSucessState(userProfile: userProfile));
       }

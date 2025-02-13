@@ -1,3 +1,5 @@
+import 'package:amplify_authenticator/amplify_authenticator.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,8 @@ Future<void> _configureAmplify() async {
     final api = AmplifyAPI(
         options: APIPluginOptions(modelProvider: ModelProvider.instance));
     final auth = AmplifyAuthCognito();
-    await Amplify.addPlugins([auth, api]);
+     final storage = AmplifyStorageS3();
+    await Amplify.addPlugins([auth, api, storage]);
     await Amplify.configure(amplifyConfig);
   } on Exception catch (e) {
     safePrint('An error occurred configuring Amplify: $e');
@@ -84,6 +87,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return AuthenticatorWidget(
         child: MaterialApp(
+      builder: Authenticator.builder(),
       debugShowCheckedModeBanner: false,
       home: BlocBuilder<UserprofileBloc, UserprofileState>(
         builder: (context, state) {
@@ -98,10 +102,17 @@ class _MyAppState extends State<MyApp> {
             return LandingPage();
           }
           if (state is UserProfileEmptyState) {
-            return StudentForm();
+            return StudentForm(
+             userId: state.userid,
+             email: state.email,
+            );
           }
           if (state is UserProfileFailedState) {
-            return ErrorPage(errorMessage: state.error, onRetry: () {});
+            return ErrorPage(
+                errorMessage: state.error,
+                onRetry: () {
+                  SignOutButton();
+                });
           } else {
             return Scaffold(
               body: Center(

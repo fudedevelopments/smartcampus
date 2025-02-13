@@ -1,11 +1,18 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FirebaseApi {
-  final _firebasemessaging = FirebaseMessaging.instance;
+  static final FirebaseApi _instance = FirebaseApi._internal();
+  factory FirebaseApi() => _instance;
+
+  FirebaseApi._internal();
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String? _fcmToken;
 
   Future<void> initNotification() async {
-    await _firebasemessaging.requestPermission();
-    final fcmtoken = await _firebasemessaging.getToken();
-    print("token ${fcmtoken}");
+    await _firebaseMessaging.requestPermission();
+    _fcmToken = await _firebaseMessaging.getToken();
   }
+
+  String? get token => _fcmToken;
 }

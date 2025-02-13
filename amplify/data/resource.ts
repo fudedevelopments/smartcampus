@@ -13,6 +13,7 @@ const schema = a.schema({
     Proctor: a.string().required(),
     Ac: a.string().required(),
     Hod: a.string().required(),
+    deviceToken: a.string().required(),
   }).authorization((allow) => [
     allow.owner()
   ]),
@@ -22,9 +23,11 @@ const schema = a.schema({
     name: a.string().required(),
     email: a.string().required(),
     department: a.string().required(),
-    qualification: a.string().required()
+    qualification: a.string().required(),
+    deviceToken: a.string().required(),
   }).authorization((allow) => [
-    allow.owner(),
+    allow.group("STAFF"),
+    allow.authenticated().to(['read']),
   ]),
 
 

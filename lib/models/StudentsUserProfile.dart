@@ -35,6 +35,7 @@ class StudentsUserProfile extends amplify_core.Model {
   final String? _Proctor;
   final String? _Ac;
   final String? _Hod;
+  final String? _deviceToken;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -155,6 +156,19 @@ class StudentsUserProfile extends amplify_core.Model {
     }
   }
   
+  String get deviceToken {
+    try {
+      return _deviceToken!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
   amplify_core.TemporalDateTime? get createdAt {
     return _createdAt;
   }
@@ -163,9 +177,9 @@ class StudentsUserProfile extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const StudentsUserProfile._internal({required this.id, required name, required regNo, required email, required department, required year, required Proctor, required Ac, required Hod, createdAt, updatedAt}): _name = name, _regNo = regNo, _email = email, _department = department, _year = year, _Proctor = Proctor, _Ac = Ac, _Hod = Hod, _createdAt = createdAt, _updatedAt = updatedAt;
+  const StudentsUserProfile._internal({required this.id, required name, required regNo, required email, required department, required year, required Proctor, required Ac, required Hod, required deviceToken, createdAt, updatedAt}): _name = name, _regNo = regNo, _email = email, _department = department, _year = year, _Proctor = Proctor, _Ac = Ac, _Hod = Hod, _deviceToken = deviceToken, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory StudentsUserProfile({String? id, required String name, required String regNo, required String email, required String department, required String year, required String Proctor, required String Ac, required String Hod}) {
+  factory StudentsUserProfile({String? id, required String name, required String regNo, required String email, required String department, required String year, required String Proctor, required String Ac, required String Hod, required String deviceToken}) {
     return StudentsUserProfile._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
@@ -175,7 +189,8 @@ class StudentsUserProfile extends amplify_core.Model {
       year: year,
       Proctor: Proctor,
       Ac: Ac,
-      Hod: Hod);
+      Hod: Hod,
+      deviceToken: deviceToken);
   }
   
   bool equals(Object other) {
@@ -194,7 +209,8 @@ class StudentsUserProfile extends amplify_core.Model {
       _year == other._year &&
       _Proctor == other._Proctor &&
       _Ac == other._Ac &&
-      _Hod == other._Hod;
+      _Hod == other._Hod &&
+      _deviceToken == other._deviceToken;
   }
   
   @override
@@ -214,6 +230,7 @@ class StudentsUserProfile extends amplify_core.Model {
     buffer.write("Proctor=" + "$_Proctor" + ", ");
     buffer.write("Ac=" + "$_Ac" + ", ");
     buffer.write("Hod=" + "$_Hod" + ", ");
+    buffer.write("deviceToken=" + "$_deviceToken" + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -221,7 +238,7 @@ class StudentsUserProfile extends amplify_core.Model {
     return buffer.toString();
   }
   
-  StudentsUserProfile copyWith({String? name, String? regNo, String? email, String? department, String? year, String? Proctor, String? Ac, String? Hod}) {
+  StudentsUserProfile copyWith({String? name, String? regNo, String? email, String? department, String? year, String? Proctor, String? Ac, String? Hod, String? deviceToken}) {
     return StudentsUserProfile._internal(
       id: id,
       name: name ?? this.name,
@@ -231,7 +248,8 @@ class StudentsUserProfile extends amplify_core.Model {
       year: year ?? this.year,
       Proctor: Proctor ?? this.Proctor,
       Ac: Ac ?? this.Ac,
-      Hod: Hod ?? this.Hod);
+      Hod: Hod ?? this.Hod,
+      deviceToken: deviceToken ?? this.deviceToken);
   }
   
   StudentsUserProfile copyWithModelFieldValues({
@@ -242,7 +260,8 @@ class StudentsUserProfile extends amplify_core.Model {
     ModelFieldValue<String>? year,
     ModelFieldValue<String>? Proctor,
     ModelFieldValue<String>? Ac,
-    ModelFieldValue<String>? Hod
+    ModelFieldValue<String>? Hod,
+    ModelFieldValue<String>? deviceToken
   }) {
     return StudentsUserProfile._internal(
       id: id,
@@ -253,7 +272,8 @@ class StudentsUserProfile extends amplify_core.Model {
       year: year == null ? this.year : year.value,
       Proctor: Proctor == null ? this.Proctor : Proctor.value,
       Ac: Ac == null ? this.Ac : Ac.value,
-      Hod: Hod == null ? this.Hod : Hod.value
+      Hod: Hod == null ? this.Hod : Hod.value,
+      deviceToken: deviceToken == null ? this.deviceToken : deviceToken.value
     );
   }
   
@@ -267,11 +287,12 @@ class StudentsUserProfile extends amplify_core.Model {
       _Proctor = json['Proctor'],
       _Ac = json['Ac'],
       _Hod = json['Hod'],
+      _deviceToken = json['deviceToken'],
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'regNo': _regNo, 'email': _email, 'department': _department, 'year': _year, 'Proctor': _Proctor, 'Ac': _Ac, 'Hod': _Hod, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'regNo': _regNo, 'email': _email, 'department': _department, 'year': _year, 'Proctor': _Proctor, 'Ac': _Ac, 'Hod': _Hod, 'deviceToken': _deviceToken, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -284,6 +305,7 @@ class StudentsUserProfile extends amplify_core.Model {
     'Proctor': _Proctor,
     'Ac': _Ac,
     'Hod': _Hod,
+    'deviceToken': _deviceToken,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
@@ -298,6 +320,7 @@ class StudentsUserProfile extends amplify_core.Model {
   static final PROCTOR = amplify_core.QueryField(fieldName: "Proctor");
   static final AC = amplify_core.QueryField(fieldName: "Ac");
   static final HOD = amplify_core.QueryField(fieldName: "Hod");
+  static final DEVICETOKEN = amplify_core.QueryField(fieldName: "deviceToken");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "StudentsUserProfile";
     modelSchemaDefinition.pluralName = "StudentsUserProfiles";
@@ -366,6 +389,12 @@ class StudentsUserProfile extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: StudentsUserProfile.HOD,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: StudentsUserProfile.DEVICETOKEN,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

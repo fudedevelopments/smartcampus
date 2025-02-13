@@ -19,4 +19,9 @@ class UserProfileFailedState extends UserprofileState {
   UserProfileFailedState({required this.error});
 }
 
-class UserProfileEmptyState extends UserprofileState {}
+class UserProfileEmptyState extends UserprofileState {
+  final String userid;
+  final String email;
+
+  UserProfileEmptyState({required this.userid, required this.email});
+}

@@ -55,13 +55,14 @@ dependencies:
   iconly: ^1.0.1
   font_awesome_flutter: ^10.7.0
   cached_network_image: ^3.3.1
-  amplify_storage_s3: ^2.3.0
+  amplify_storage_s3: ^2.6.0
   aws_common: ^0.7.1
   ionicons: ^0.2.2
   carousel_slider: ^5.0.0
   flutter_spinkit: ^5.2.1
   shimmer: ^3.0.0
   file_selector: ^1.0.3
+  file_picker: ^8.0.7
 
 dev_dependencies:
   flutter_test:

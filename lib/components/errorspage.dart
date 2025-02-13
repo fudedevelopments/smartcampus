@@ -1,3 +1,4 @@
+import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatelessWidget {
@@ -47,6 +48,7 @@ class ErrorPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 40),
+                SignOutButton(),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

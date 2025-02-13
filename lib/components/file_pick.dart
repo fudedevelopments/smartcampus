@@ -1,13 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
-import 'package:file_selector/file_selector.dart';
+import 'package:aws_common/vm.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 class FilePickerBoxUI extends StatefulWidget {
-  final List<File> selectFiles;
+  final List<File> selectfiles;
+  final Function(List<Map<String, String>>) onFilesUpdated;
   const FilePickerBoxUI({
     super.key,
-    required this.selectFiles,
+    required this.selectfiles,
+    required this.onFilesUpdated,
   });
 
   @override
@@ -15,24 +20,76 @@ class FilePickerBoxUI extends StatefulWidget {
 }
 
 class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
-  Future<void> _pickFiles() async {
-    const XTypeGroup fileTypeGroup = XTypeGroup(
-      label: 'Documents',
-      extensions: ['jpg', 'png', 'pdf', 'doc'],
-    );
-    final List<XFile> result = await openFiles(acceptedTypeGroups: [fileTypeGroup]);
+  List<Map<String, String>> uploadedFiles = [];
+  Map<String, bool> uploadingStatus = {};
+  Map<String, bool> uploadError = {};
 
-    if (result.isNotEmpty) {
+  Future<void> _pickFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'pdf', 'doc'],
+      allowMultiple: true,
+    );
+
+    if (result != null) {
+      List<File> newFiles = result.paths.map((path) => File(path!)).toList();
       setState(() {
-        widget.selectFiles.addAll(result.map((xFile) => File(xFile.path)));
+        widget.selectfiles.addAll(newFiles);
+        for (var file in newFiles) {
+          uploadingStatus[file.path] = true;
+          uploadError[file.path] = false;
+        }
       });
+      for (var file in newFiles) {
+        await _uploadFile(file);
+      }
     }
   }
 
-  void _removeFile(int index) {
+  Future<void> _uploadFile(File file) async {
+    try {
+      final result = await Amplify.Storage.uploadFile(
+        localFile: AWSFilePlatform.fromFile(file),
+        path: StoragePath.fromString('ondutydocs/${const Uuid().v4()}'),
+      ).result;
+
+      setState(() {
+        uploadedFiles.add({
+          'path': file.path,
+          'url': result.uploadedItem.path,
+        });
+        uploadingStatus[file.path] = false;
+        uploadError[file.path] = false;
+      });
+      widget.onFilesUpdated(uploadedFiles);
+    } catch (e) {
+      setState(() {
+        uploadingStatus[file.path] = false;
+        uploadError[file.path] = true;
+      });
+      print('Upload failed: $e');
+    }
+  }
+
+  Future<void> _removeFile(int index) async {
+    String? filePath = uploadedFiles[index]['url'];
+    if (filePath != null) {
+      try {
+        await Amplify.Storage.remove(
+          path: StoragePath.fromString(filePath),
+        ).result;
+      } catch (e) {
+        print('Delete failed: $e');
+      }
+    }
     setState(() {
-      widget.selectFiles.removeAt(index);
+      String removedFilePath = widget.selectfiles[index].path;
+      widget.selectfiles.removeAt(index);
+      uploadedFiles.removeWhere((file) => file['path'] == removedFilePath);
+      uploadingStatus.remove(removedFilePath);
+      uploadError.remove(removedFilePath);
     });
+    widget.onFilesUpdated(uploadedFiles);
   }
 
   String _shortenFileName(String fileName, [int maxLength = 15]) {
@@ -57,13 +114,14 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
           child: Column(
             children: [
               Expanded(
-                child: widget.selectFiles.isEmpty
+                child: widget.selectfiles.isEmpty
                     ? GestureDetector(
                         onTap: _pickFiles,
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.upload_file, size: 40, color: Colors.blue),
+                            Icon(Icons.upload_file,
+                                size: 40, color: Colors.blue),
                             SizedBox(height: 10),
                             Text(
                               "Tap to select upload valid Documents",
@@ -86,18 +144,24 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
                         ),
                       )
                     : ListView.builder(
-                        itemCount: widget.selectFiles.length,
+                        itemCount: widget.selectfiles.length,
                         itemBuilder: (context, index) {
-                          File file = widget.selectFiles[index];
+                          File file = widget.selectfiles[index];
                           String fileName = file.path.split('/').last;
                           String shortenedFileName = _shortenFileName(fileName);
+                          bool isUploading =
+                              uploadingStatus[file.path] ?? false;
+                          bool isError = uploadError[file.path] ?? false;
+                          bool isUploaded =
+                              uploadedFiles.any((f) => f['path'] == file.path);
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Row(
                                 children: [
                                   Icon(
-                                    fileName.endsWith('.jpg') || fileName.endsWith('.png')
+                                    fileName.endsWith('.jpg') ||
+                                            fileName.endsWith('.png')
                                         ? Icons.image
                                         : Icons.insert_drive_file,
                                     size: 40,
@@ -111,10 +175,23 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
                                       color: Colors.deepPurple,
                                     ),
                                   ),
+                                  if (isUploading)
+                                    const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2),
+                                    ),
+                                  if (isUploaded)
+                                    const Icon(Icons.check_circle,
+                                        color: Colors.green),
+                                  if (isError)
+                                    const Icon(Icons.error, color: Colors.red),
                                 ],
                               ),
                               IconButton(
-                                icon: const Icon(Icons.cancel, color: Colors.red),
+                                icon:
+                                    const Icon(Icons.cancel, color: Colors.red),
                                 onPressed: () => _removeFile(index),
                               ),
                             ],
@@ -122,11 +199,12 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
                         },
                       ),
               ),
-              if (widget.selectFiles.isNotEmpty)
+              if (widget.selectfiles.isNotEmpty)
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                    icon: const Icon(Icons.add_circle, color: Colors.deepPurple, size: 40),
+                    icon: const Icon(Icons.add_circle,
+                        color: Colors.deepPurple, size: 40),
                     onPressed: _pickFiles,
                   ),
                 ),
