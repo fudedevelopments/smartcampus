@@ -48,9 +48,15 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
 
   Future<void> _uploadFile(File file) async {
     try {
+      String fileName = file.path.split('/').last; // Extract file name
+      String fileExtension = fileName.split('.').last; // Extract file extension
+      String uniqueFileName =
+          '${const Uuid().v4()}.$fileExtension'; // Unique name with extension
+
       final result = await Amplify.Storage.uploadFile(
         localFile: AWSFilePlatform.fromFile(file),
-        path: StoragePath.fromString('ondutydocs/${const Uuid().v4()}'),
+        path: StoragePath.fromString(
+            'ondutydocs/$uniqueFileName'), // Preserve extension
       ).result;
 
       setState(() {
@@ -107,8 +113,8 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
           padding: const EdgeInsets.all(10),
           height: 200,
           decoration: BoxDecoration(
-            color: Colors.blue[50],
-            border: Border.all(color: Colors.blue, width: 2),
+            color: Colors.blueAccent[50],
+            border: Border.all(color: Colors.blueAccent.shade200, width: 2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -121,10 +127,10 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.upload_file,
-                                size: 40, color: Colors.blue),
+                                size: 40, color: Colors.blueAccent),
                             SizedBox(height: 10),
                             Text(
-                              "Tap to select upload valid Documents",
+                              "Tap to select upload Poster or Images",
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.deepPurple,
@@ -165,14 +171,14 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
                                         ? Icons.image
                                         : Icons.insert_drive_file,
                                     size: 40,
-                                    color: Colors.blue,
+                                    color: Colors.blueAccent,
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
                                     shortenedFileName,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.deepPurple,
+                                      color: Colors.blueAccent,
                                     ),
                                   ),
                                   if (isUploading)
@@ -204,7 +210,7 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
                   alignment: Alignment.centerRight,
                   child: IconButton(
                     icon: const Icon(Icons.add_circle,
-                        color: Colors.deepPurple, size: 40),
+                        color: Colors.blueAccent, size: 40),
                     onPressed: _pickFiles,
                   ),
                 ),

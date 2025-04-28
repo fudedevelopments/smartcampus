@@ -1,0 +1,2 @@
+D:/necproject/smartcampus/android/app/.cxx/Debug/6k4ex4k3/x86_64/CMakeFiles/edit_cache.dir
+D:/necproject/smartcampus/android/app/.cxx/Debug/6k4ex4k3/x86_64/CMakeFiles/rebuild_cache.dir

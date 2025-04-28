@@ -33,18 +33,20 @@ class onDutyModel extends amplify_core.Model {
   final String? _email;
   final String? _department;
   final String? _year;
+  final String? _student;
   final String? _Proctor;
   final String? _Ac;
   final String? _Hod;
   final String? _eventname;
+  final String? _details;
   final String? _location;
-  final amplify_core.TemporalDate? _date;
+  final String? _date;
   final String? _registeredUrl;
   final List<String>? _validDocuments;
-  final Status? _proctorstatus;
-  final Status? _AcStatus;
-  final Status? _HodStatus;
-  final amplify_core.TemporalDateTime? _createdAt;
+  final String? _proctorstatus;
+  final String? _AcStatus;
+  final String? _HodStatus;
+  final amplify_core.TemporalTimestamp? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
   @override
@@ -125,6 +127,19 @@ class onDutyModel extends amplify_core.Model {
     }
   }
   
+  String get student {
+    try {
+      return _student!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
   String get Proctor {
     try {
       return _Proctor!;
@@ -177,6 +192,10 @@ class onDutyModel extends amplify_core.Model {
     }
   }
   
+  String? get details {
+    return _details;
+  }
+  
   String get location {
     try {
       return _location!;
@@ -190,7 +209,7 @@ class onDutyModel extends amplify_core.Model {
     }
   }
   
-  amplify_core.TemporalDate get date {
+  String get date {
     try {
       return _date!;
     } catch(e) {
@@ -229,46 +248,19 @@ class onDutyModel extends amplify_core.Model {
     }
   }
   
-  Status get proctorstatus {
-    try {
-      return _proctorstatus!;
-    } catch(e) {
-      throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  String? get proctorstatus {
+    return _proctorstatus;
   }
   
-  Status get AcStatus {
-    try {
-      return _AcStatus!;
-    } catch(e) {
-      throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  String? get AcStatus {
+    return _AcStatus;
   }
   
-  Status get HodStatus {
-    try {
-      return _HodStatus!;
-    } catch(e) {
-      throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  String? get HodStatus {
+    return _HodStatus;
   }
   
-  amplify_core.TemporalDateTime? get createdAt {
+  amplify_core.TemporalTimestamp? get createdAt {
     return _createdAt;
   }
   
@@ -276,9 +268,9 @@ class onDutyModel extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const onDutyModel._internal({required this.id, required name, required regNo, required email, required department, required year, required Proctor, required Ac, required Hod, required eventname, required location, required date, required registeredUrl, required validDocuments, required proctorstatus, required AcStatus, required HodStatus, createdAt, updatedAt}): _name = name, _regNo = regNo, _email = email, _department = department, _year = year, _Proctor = Proctor, _Ac = Ac, _Hod = Hod, _eventname = eventname, _location = location, _date = date, _registeredUrl = registeredUrl, _validDocuments = validDocuments, _proctorstatus = proctorstatus, _AcStatus = AcStatus, _HodStatus = HodStatus, _createdAt = createdAt, _updatedAt = updatedAt;
+  const onDutyModel._internal({required this.id, required name, required regNo, required email, required department, required year, required student, required Proctor, required Ac, required Hod, required eventname, details, required location, required date, required registeredUrl, required validDocuments, proctorstatus, AcStatus, HodStatus, createdAt, updatedAt}): _name = name, _regNo = regNo, _email = email, _department = department, _year = year, _student = student, _Proctor = Proctor, _Ac = Ac, _Hod = Hod, _eventname = eventname, _details = details, _location = location, _date = date, _registeredUrl = registeredUrl, _validDocuments = validDocuments, _proctorstatus = proctorstatus, _AcStatus = AcStatus, _HodStatus = HodStatus, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory onDutyModel({String? id, required String name, required String regNo, required String email, required String department, required String year, required String Proctor, required String Ac, required String Hod, required String eventname, required String location, required amplify_core.TemporalDate date, required String registeredUrl, required List<String> validDocuments, required Status proctorstatus, required Status AcStatus, required Status HodStatus}) {
+  factory onDutyModel({String? id, required String name, required String regNo, required String email, required String department, required String year, required String student, required String Proctor, required String Ac, required String Hod, required String eventname, String? details, required String location, required String date, required String registeredUrl, required List<String> validDocuments, String? proctorstatus, String? AcStatus, String? HodStatus, amplify_core.TemporalTimestamp? createdAt}) {
     return onDutyModel._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
@@ -286,17 +278,20 @@ class onDutyModel extends amplify_core.Model {
       email: email,
       department: department,
       year: year,
+      student: student,
       Proctor: Proctor,
       Ac: Ac,
       Hod: Hod,
       eventname: eventname,
+      details: details,
       location: location,
       date: date,
       registeredUrl: registeredUrl,
       validDocuments: validDocuments != null ? List<String>.unmodifiable(validDocuments) : validDocuments,
       proctorstatus: proctorstatus,
       AcStatus: AcStatus,
-      HodStatus: HodStatus);
+      HodStatus: HodStatus,
+      createdAt: createdAt);
   }
   
   bool equals(Object other) {
@@ -313,17 +308,20 @@ class onDutyModel extends amplify_core.Model {
       _email == other._email &&
       _department == other._department &&
       _year == other._year &&
+      _student == other._student &&
       _Proctor == other._Proctor &&
       _Ac == other._Ac &&
       _Hod == other._Hod &&
       _eventname == other._eventname &&
+      _details == other._details &&
       _location == other._location &&
       _date == other._date &&
       _registeredUrl == other._registeredUrl &&
       DeepCollectionEquality().equals(_validDocuments, other._validDocuments) &&
       _proctorstatus == other._proctorstatus &&
       _AcStatus == other._AcStatus &&
-      _HodStatus == other._HodStatus;
+      _HodStatus == other._HodStatus &&
+      _createdAt == other._createdAt;
   }
   
   @override
@@ -340,25 +338,27 @@ class onDutyModel extends amplify_core.Model {
     buffer.write("email=" + "$_email" + ", ");
     buffer.write("department=" + "$_department" + ", ");
     buffer.write("year=" + "$_year" + ", ");
+    buffer.write("student=" + "$_student" + ", ");
     buffer.write("Proctor=" + "$_Proctor" + ", ");
     buffer.write("Ac=" + "$_Ac" + ", ");
     buffer.write("Hod=" + "$_Hod" + ", ");
     buffer.write("eventname=" + "$_eventname" + ", ");
+    buffer.write("details=" + "$_details" + ", ");
     buffer.write("location=" + "$_location" + ", ");
-    buffer.write("date=" + (_date != null ? _date!.format() : "null") + ", ");
+    buffer.write("date=" + "$_date" + ", ");
     buffer.write("registeredUrl=" + "$_registeredUrl" + ", ");
     buffer.write("validDocuments=" + (_validDocuments != null ? _validDocuments!.toString() : "null") + ", ");
-    buffer.write("proctorstatus=" + (_proctorstatus != null ? amplify_core.enumToString(_proctorstatus)! : "null") + ", ");
-    buffer.write("AcStatus=" + (_AcStatus != null ? amplify_core.enumToString(_AcStatus)! : "null") + ", ");
-    buffer.write("HodStatus=" + (_HodStatus != null ? amplify_core.enumToString(_HodStatus)! : "null") + ", ");
-    buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
+    buffer.write("proctorstatus=" + "$_proctorstatus" + ", ");
+    buffer.write("AcStatus=" + "$_AcStatus" + ", ");
+    buffer.write("HodStatus=" + "$_HodStatus" + ", ");
+    buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.toString() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
     
     return buffer.toString();
   }
   
-  onDutyModel copyWith({String? name, String? regNo, String? email, String? department, String? year, String? Proctor, String? Ac, String? Hod, String? eventname, String? location, amplify_core.TemporalDate? date, String? registeredUrl, List<String>? validDocuments, Status? proctorstatus, Status? AcStatus, Status? HodStatus}) {
+  onDutyModel copyWith({String? name, String? regNo, String? email, String? department, String? year, String? student, String? Proctor, String? Ac, String? Hod, String? eventname, String? details, String? location, String? date, String? registeredUrl, List<String>? validDocuments, String? proctorstatus, String? AcStatus, String? HodStatus, amplify_core.TemporalTimestamp? createdAt}) {
     return onDutyModel._internal(
       id: id,
       name: name ?? this.name,
@@ -366,17 +366,20 @@ class onDutyModel extends amplify_core.Model {
       email: email ?? this.email,
       department: department ?? this.department,
       year: year ?? this.year,
+      student: student ?? this.student,
       Proctor: Proctor ?? this.Proctor,
       Ac: Ac ?? this.Ac,
       Hod: Hod ?? this.Hod,
       eventname: eventname ?? this.eventname,
+      details: details ?? this.details,
       location: location ?? this.location,
       date: date ?? this.date,
       registeredUrl: registeredUrl ?? this.registeredUrl,
       validDocuments: validDocuments ?? this.validDocuments,
       proctorstatus: proctorstatus ?? this.proctorstatus,
       AcStatus: AcStatus ?? this.AcStatus,
-      HodStatus: HodStatus ?? this.HodStatus);
+      HodStatus: HodStatus ?? this.HodStatus,
+      createdAt: createdAt ?? this.createdAt);
   }
   
   onDutyModel copyWithModelFieldValues({
@@ -385,17 +388,20 @@ class onDutyModel extends amplify_core.Model {
     ModelFieldValue<String>? email,
     ModelFieldValue<String>? department,
     ModelFieldValue<String>? year,
+    ModelFieldValue<String>? student,
     ModelFieldValue<String>? Proctor,
     ModelFieldValue<String>? Ac,
     ModelFieldValue<String>? Hod,
     ModelFieldValue<String>? eventname,
+    ModelFieldValue<String?>? details,
     ModelFieldValue<String>? location,
-    ModelFieldValue<amplify_core.TemporalDate>? date,
+    ModelFieldValue<String>? date,
     ModelFieldValue<String>? registeredUrl,
     ModelFieldValue<List<String>?>? validDocuments,
-    ModelFieldValue<Status>? proctorstatus,
-    ModelFieldValue<Status>? AcStatus,
-    ModelFieldValue<Status>? HodStatus
+    ModelFieldValue<String?>? proctorstatus,
+    ModelFieldValue<String?>? AcStatus,
+    ModelFieldValue<String?>? HodStatus,
+    ModelFieldValue<amplify_core.TemporalTimestamp?>? createdAt
   }) {
     return onDutyModel._internal(
       id: id,
@@ -404,17 +410,20 @@ class onDutyModel extends amplify_core.Model {
       email: email == null ? this.email : email.value,
       department: department == null ? this.department : department.value,
       year: year == null ? this.year : year.value,
+      student: student == null ? this.student : student.value,
       Proctor: Proctor == null ? this.Proctor : Proctor.value,
       Ac: Ac == null ? this.Ac : Ac.value,
       Hod: Hod == null ? this.Hod : Hod.value,
       eventname: eventname == null ? this.eventname : eventname.value,
+      details: details == null ? this.details : details.value,
       location: location == null ? this.location : location.value,
       date: date == null ? this.date : date.value,
       registeredUrl: registeredUrl == null ? this.registeredUrl : registeredUrl.value,
       validDocuments: validDocuments == null ? this.validDocuments : validDocuments.value,
       proctorstatus: proctorstatus == null ? this.proctorstatus : proctorstatus.value,
       AcStatus: AcStatus == null ? this.AcStatus : AcStatus.value,
-      HodStatus: HodStatus == null ? this.HodStatus : HodStatus.value
+      HodStatus: HodStatus == null ? this.HodStatus : HodStatus.value,
+      createdAt: createdAt == null ? this.createdAt : createdAt.value
     );
   }
   
@@ -425,22 +434,24 @@ class onDutyModel extends amplify_core.Model {
       _email = json['email'],
       _department = json['department'],
       _year = json['year'],
+      _student = json['student'],
       _Proctor = json['Proctor'],
       _Ac = json['Ac'],
       _Hod = json['Hod'],
       _eventname = json['eventname'],
+      _details = json['details'],
       _location = json['location'],
-      _date = json['date'] != null ? amplify_core.TemporalDate.fromString(json['date']) : null,
+      _date = json['date'],
       _registeredUrl = json['registeredUrl'],
       _validDocuments = json['validDocuments']?.cast<String>(),
-      _proctorstatus = amplify_core.enumFromString<Status>(json['proctorstatus'], Status.values),
-      _AcStatus = amplify_core.enumFromString<Status>(json['AcStatus'], Status.values),
-      _HodStatus = amplify_core.enumFromString<Status>(json['HodStatus'], Status.values),
-      _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
+      _proctorstatus = json['proctorstatus'],
+      _AcStatus = json['AcStatus'],
+      _HodStatus = json['HodStatus'],
+      _createdAt = json['createdAt'] != null ? amplify_core.TemporalTimestamp.fromSeconds(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'regNo': _regNo, 'email': _email, 'department': _department, 'year': _year, 'Proctor': _Proctor, 'Ac': _Ac, 'Hod': _Hod, 'eventname': _eventname, 'location': _location, 'date': _date?.format(), 'registeredUrl': _registeredUrl, 'validDocuments': _validDocuments, 'proctorstatus': amplify_core.enumToString(_proctorstatus), 'AcStatus': amplify_core.enumToString(_AcStatus), 'HodStatus': amplify_core.enumToString(_HodStatus), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'regNo': _regNo, 'email': _email, 'department': _department, 'year': _year, 'student': _student, 'Proctor': _Proctor, 'Ac': _Ac, 'Hod': _Hod, 'eventname': _eventname, 'details': _details, 'location': _location, 'date': _date, 'registeredUrl': _registeredUrl, 'validDocuments': _validDocuments, 'proctorstatus': _proctorstatus, 'AcStatus': _AcStatus, 'HodStatus': _HodStatus, 'createdAt': _createdAt?.toSeconds(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -450,10 +461,12 @@ class onDutyModel extends amplify_core.Model {
     'email': _email,
     'department': _department,
     'year': _year,
+    'student': _student,
     'Proctor': _Proctor,
     'Ac': _Ac,
     'Hod': _Hod,
     'eventname': _eventname,
+    'details': _details,
     'location': _location,
     'date': _date,
     'registeredUrl': _registeredUrl,
@@ -472,10 +485,12 @@ class onDutyModel extends amplify_core.Model {
   static final EMAIL = amplify_core.QueryField(fieldName: "email");
   static final DEPARTMENT = amplify_core.QueryField(fieldName: "department");
   static final YEAR = amplify_core.QueryField(fieldName: "year");
+  static final STUDENT = amplify_core.QueryField(fieldName: "student");
   static final PROCTOR = amplify_core.QueryField(fieldName: "Proctor");
   static final AC = amplify_core.QueryField(fieldName: "Ac");
   static final HOD = amplify_core.QueryField(fieldName: "Hod");
   static final EVENTNAME = amplify_core.QueryField(fieldName: "eventname");
+  static final DETAILS = amplify_core.QueryField(fieldName: "details");
   static final LOCATION = amplify_core.QueryField(fieldName: "location");
   static final DATE = amplify_core.QueryField(fieldName: "date");
   static final REGISTEREDURL = amplify_core.QueryField(fieldName: "registeredUrl");
@@ -483,6 +498,7 @@ class onDutyModel extends amplify_core.Model {
   static final PROCTORSTATUS = amplify_core.QueryField(fieldName: "proctorstatus");
   static final ACSTATUS = amplify_core.QueryField(fieldName: "AcStatus");
   static final HODSTATUS = amplify_core.QueryField(fieldName: "HodStatus");
+  static final CREATEDAT = amplify_core.QueryField(fieldName: "createdAt");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "onDutyModel";
     modelSchemaDefinition.pluralName = "onDutyModels";
@@ -490,41 +506,18 @@ class onDutyModel extends amplify_core.Model {
     modelSchemaDefinition.authRules = [
       amplify_core.AuthRule(
         authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "owner",
+        ownerField: "student",
         identityClaim: "cognito:username",
         provider: amplify_core.AuthRuleProvider.USERPOOLS,
         operations: const [
           amplify_core.ModelOperation.CREATE,
-          amplify_core.ModelOperation.UPDATE,
-          amplify_core.ModelOperation.DELETE,
-          amplify_core.ModelOperation.READ
+          amplify_core.ModelOperation.READ,
+          amplify_core.ModelOperation.DELETE
         ]),
       amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "Proctor",
-        identityClaim: "cognito:username",
-        provider: amplify_core.AuthRuleProvider.USERPOOLS,
-        operations: const [
-          amplify_core.ModelOperation.CREATE,
-          amplify_core.ModelOperation.UPDATE,
-          amplify_core.ModelOperation.DELETE,
-          amplify_core.ModelOperation.READ
-        ]),
-      amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "Ac",
-        identityClaim: "cognito:username",
-        provider: amplify_core.AuthRuleProvider.USERPOOLS,
-        operations: const [
-          amplify_core.ModelOperation.CREATE,
-          amplify_core.ModelOperation.UPDATE,
-          amplify_core.ModelOperation.DELETE,
-          amplify_core.ModelOperation.READ
-        ]),
-      amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "Hod",
-        identityClaim: "cognito:username",
+        authStrategy: amplify_core.AuthStrategy.GROUPS,
+        groupClaim: "cognito:groups",
+        groups: [ "STAFF" ],
         provider: amplify_core.AuthRuleProvider.USERPOOLS,
         operations: const [
           amplify_core.ModelOperation.CREATE,
@@ -535,10 +528,10 @@ class onDutyModel extends amplify_core.Model {
     ];
     
     modelSchemaDefinition.indexes = [
-      amplify_core.ModelIndex(fields: const ["id"], name: null),
-      amplify_core.ModelIndex(fields: const ["Proctor"], name: "onDutyModelsByProctor"),
-      amplify_core.ModelIndex(fields: const ["Ac"], name: "onDutyModelsByAc"),
-      amplify_core.ModelIndex(fields: const ["Hod"], name: "onDutyModelsByHod")
+      amplify_core.ModelIndex(fields: const ["student", "createdAt"], name: "onDutyModelsByStudentAndCreatedAt"),
+      amplify_core.ModelIndex(fields: const ["Proctor", "createdAt"], name: "onDutyModelsByProctorAndCreatedAt"),
+      amplify_core.ModelIndex(fields: const ["Ac", "createdAt"], name: "onDutyModelsByAcAndCreatedAt"),
+      amplify_core.ModelIndex(fields: const ["Hod", "createdAt"], name: "onDutyModelsByHodAndCreatedAt")
     ];
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
@@ -574,6 +567,12 @@ class onDutyModel extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: onDutyModel.STUDENT,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.PROCTOR,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
@@ -598,6 +597,12 @@ class onDutyModel extends amplify_core.Model {
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: onDutyModel.DETAILS,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.LOCATION,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
@@ -606,7 +611,7 @@ class onDutyModel extends amplify_core.Model {
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.DATE,
       isRequired: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.date)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
@@ -624,27 +629,26 @@ class onDutyModel extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.PROCTORSTATUS,
-      isRequired: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.ACSTATUS,
-      isRequired: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.HODSTATUS,
-      isRequired: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.enumeration)
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
-    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
-      fieldName: 'createdAt',
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: onDutyModel.CREATEDAT,
       isRequired: false,
-      isReadOnly: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.dateTime)
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.timestamp)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(

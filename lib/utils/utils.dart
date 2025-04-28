@@ -1,7 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:smartcampusstaff/utils/image_cache_service.dart';
 
 void showsnakbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
@@ -50,14 +49,5 @@ navigatorpushandremove(BuildContext context, Widget route) {
 }
 
 Future<String> getimage({required String path}) async {
-  final result = await Amplify.Storage.getUrl(
-    path: StoragePath.fromString(path),
-  ).result;
-  final url = result.url;
-  final urlstr = url.toString();
-  return urlstr;
+  return ImageCacheService().getImageUrl(path);
 }
-
-
-
-

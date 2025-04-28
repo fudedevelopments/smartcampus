@@ -15,7 +15,8 @@ const schema = a.schema({
     Hod: a.string().required(),
     deviceToken: a.string().required(),
   }).authorization((allow) => [
-    allow.owner()
+    allow.owner(),
+    allow.groups(["STAFF", "ADMINS"]).to(['read'])
   ]),
   
   StaffUserProfile: a.model({
@@ -27,15 +28,11 @@ const schema = a.schema({
     deviceToken: a.string().required(),
   }).authorization((allow) => [
     allow.group("STAFF"),
+    allow.group("ADMINS").to(['read']),
     allow.authenticated().to(['read']),
   ]),
 
 
-  Status: a.enum([
-    "PENDING",
-    "REJECTED",
-    "APPROVED",
-  ]),
 
   onDutyModel: a.model({
     id: a.id().required(),
@@ -47,17 +44,15 @@ const schema = a.schema({
     Proctor: a.string().required(),
     Ac: a.string().required(),
     Hod: a.string().required(),
-    //details about the event
     eventname: a.string().required(),
     location: a.string().required(),
     date: a.date().required(),
     registeredUrl: a.string().required(),
     validDocuments: a.string().array().required(),
-    proctorstatus: a.ref('Status').required(),
-    AcStatus: a.ref('Status').required(),
-    HodStatus: a.ref('Status').required(),
-
-
+    proctorstatus: a.string().required(),
+    AcStatus: a.string().required(),
+    HodStatus: a.string().required(),
+    createdAt: a.timestamp().required()
   })
     .secondaryIndexes((index)=>[index('Hod'), index('Ac'),index('Proctor')])
     .authorization((allow) => [
@@ -66,6 +61,8 @@ const schema = a.schema({
     allow.ownerDefinedIn('Ac'),
     allow.ownerDefinedIn('Hod'),
     ]),
+  
+  
   
   
     createUser: a
@@ -93,6 +90,7 @@ const schema = a.schema({
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
+  name: "NecBackend",
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
