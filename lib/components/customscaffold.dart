@@ -7,11 +7,13 @@ class CustomScaffold extends StatelessWidget {
     required this.state,
     required this.body,
     this.footer,
+    this.isStudent = false,
   });
 
   final AuthenticatorState state;
   final Widget body;
   final Widget? footer;
+  final bool isStudent;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +23,17 @@ class CustomScaffold extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFF1A237E), // NEC dark blue
-              const Color(0xFF3949AB), // NEC medium blue
-              const Color(0xFF5C6BC0), // NEC light blue
-            ],
+            colors: isStudent
+                ? [
+                    const Color(0xFF2196F3), // Light blue
+                    const Color(0xFF64B5F6), // Lighter blue
+                    const Color(0xFF90CAF9), // Very light blue
+                  ]
+                : [
+                    const Color(0xFF1A237E), // NEC dark blue
+                    const Color(0xFF3949AB), // NEC medium blue
+                    const Color(0xFF5C6BC0), // NEC light blue
+                  ],
           ),
         ),
         child: SafeArea(
@@ -54,7 +62,9 @@ class CustomScaffold extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Image.asset(
-                          "assets/images/logostaff.jpeg", // Use the NEC staff logo
+                          isStudent
+                              ? "assets/images/icon.jpeg" // Student icon
+                              : "assets/images/logostaff.jpeg", // Staff logo
                           fit:
                               BoxFit.cover, // Cover to fill the circle properly
                         ),
@@ -84,9 +94,11 @@ class CustomScaffold extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   // Subtitle
-                  const Text(
-                    "SMART CAMPUS - STAFF PORTAL",
-                    style: TextStyle(
+                  Text(
+                    isStudent
+                        ? "SMART CAMPUS - STUDENT PORTAL"
+                        : "SMART CAMPUS - STAFF PORTAL",
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,

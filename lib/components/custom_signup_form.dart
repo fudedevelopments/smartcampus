@@ -1,10 +1,10 @@
 import 'package:amplify_authenticator/amplify_authenticator.dart';
 import 'package:flutter/material.dart';
 
-class CustomSignInForm extends StatelessWidget {
+class CustomSignUpForm extends StatelessWidget {
   final AuthenticatorState? state;
 
-  const CustomSignInForm({Key? key, this.state}) : super(key: key);
+  const CustomSignUpForm({Key? key, this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,13 @@ class CustomSignInForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Student Portal heading
+          // Student Registration heading
           const Text(
-            "STUDENT LOGIN",
+            "STUDENT REGISTRATION",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF2196F3), // Lighter blue
+              color: Color(0xFF2196F3), // Light blue
               letterSpacing: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -39,7 +39,7 @@ class CustomSignInForm extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // Domain restriction note
+          // Registration info
           Container(
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(bottom: 24),
@@ -58,7 +58,7 @@ class CustomSignInForm extends StatelessWidget {
                     const SizedBox(width: 12),
                     const Expanded(
                       child: Text(
-                        'Student Login Information',
+                        'Registration Information',
                         style: TextStyle(
                           color: Color(0xFF1976D2), // Medium blue
                           fontSize: 16,
@@ -70,7 +70,7 @@ class CustomSignInForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Only registered students with Nandha Engineering College email addresses are permitted to access the student portal.',
+                  'Please use your official Nandha Engineering College email address to register. All fields are required.',
                   style: TextStyle(
                     color: Color(0xFF2196F3), // Light blue
                     fontSize: 14,
@@ -80,7 +80,7 @@ class CustomSignInForm extends StatelessWidget {
             ),
           ),
 
-          // Use the built-in SignInForm with custom theme
+          // Use the built-in SignUpForm with custom theme
           Theme(
             data: Theme.of(context).copyWith(
               inputDecorationTheme: InputDecorationTheme(
@@ -147,13 +147,13 @@ class CustomSignInForm extends StatelessWidget {
             ),
             child: Column(
               children: [
-                SignInForm(),
+                SignUpForm(),
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    // Navigate to sign up using the provided state
+                    // Navigate back to sign in
                     if (state != null) {
-                      state!.changeStep(AuthenticatorStep.signUp);
+                      state!.changeStep(AuthenticatorStep.signIn);
                     }
                   },
                   style: TextButton.styleFrom(
@@ -164,10 +164,10 @@ class CustomSignInForm extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.person_add_outlined),
+                      Icon(Icons.arrow_back),
                       SizedBox(width: 8),
                       Text(
-                        "Don't have an account? Sign Up",
+                        "Back to Sign In",
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

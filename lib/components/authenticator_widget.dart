@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smartcampus/bloc/userprofile_bloc.dart';
 import 'package:smartcampus/components/custom_signin_form.dart';
+import 'package:smartcampus/components/custom_signup_form.dart';
 import 'package:smartcampus/components/customscaffold.dart';
 import 'package:smartcampus/utils/authservices.dart';
 
@@ -84,17 +85,32 @@ class _AuthenticatorWidgetState extends State<AuthenticatorWidget> {
           case AuthenticatorStep.signIn:
             return CustomScaffold(
               state: state,
-              body: const CustomSignInForm(),
+              body: CustomSignInForm(state: state),
+              isStudent: true,
+            );
+          case AuthenticatorStep.signUp:
+            return CustomScaffold(
+              state: state,
+              body: CustomSignUpForm(state: state),
+              isStudent: true,
+            );
+          case AuthenticatorStep.confirmSignUp:
+            return CustomScaffold(
+              state: state,
+              body: ConfirmSignUpForm(),
+              isStudent: true,
             );
           case AuthenticatorStep.resetPassword:
             return CustomScaffold(
               state: state,
               body: ResetPasswordForm(),
+              isStudent: true,
             );
           case AuthenticatorStep.confirmResetPassword:
             return CustomScaffold(
               state: state,
               body: const ConfirmResetPasswordForm(),
+              isStudent: true,
             );
           default:
             return null;
