@@ -1,6 +1,6 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:smartcampusstaff/utils/image_cache_service.dart';
+import 'package:smartcampus/utils/image_cache_service.dart';
 
 void showsnakbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));

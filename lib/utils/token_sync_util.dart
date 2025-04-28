@@ -1,6 +1,7 @@
-import 'package:smartcampusstaff/models/StaffUserProfile.dart';
-import 'package:smartcampusstaff/utils/firebaseapi.dart';
-import 'package:smartcampusstaff/bloc/repo/userprofilerepo.dart';
+
+
+import 'package:smartcampus/models/ModelProvider.dart';
+import 'package:smartcampus/utils/firebaseapi.dart';
 
 /// Utility class for synchronizing device tokens between Firebase and the backend
 class TokenSyncUtil {
@@ -13,7 +14,7 @@ class TokenSyncUtil {
 
   /// Checks if the device token needs to be updated and updates it in the background
   /// This method is designed to run without affecting the UI
-  Future<void> syncDeviceToken(StaffUserProfile userProfile) async {
+  Future<void> syncDeviceToken(StudentsUserProfile userProfile) async {
     // Prevent multiple sync operations running simultaneously
     if (_isSyncing) return;
 
@@ -37,8 +38,8 @@ class TokenSyncUtil {
       final updatedProfile = userProfile.copyWith(deviceToken: currentToken);
 
       // Update the token in the backend
-      await UserProfileRepo()
-          .updateUserProfileStaff(userprofile: updatedProfile);
+      // await UserProfileRepo()
+      //     .updateUserProfileStaff(userprofile: updatedProfile);
 
       print('Device token updated successfully');
     } catch (e) {

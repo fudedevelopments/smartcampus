@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smartcampus/model/newonduty.dart';
+import 'package:smartcampus/utils/apicall.dart';
 import 'package:smartcampus/utils/authservices.dart';
 import 'package:smartcampus/utils/utils.dart';
 
@@ -48,21 +49,17 @@ class StatusCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () async {
-        final result = await navigationpush(
-          context,
-          DetailsOnduty(index: index, model: onDutyModel),
-        );
-        if (result == true) {
-          final ondutyController = Get.find<OndutyController>();
-          ondutyController.fetchData(
-            tablename: "onDutyModel-2jskpek75veajd4yfnqjmkppmu-NONE",
-            indexname: _getIndexName(index),
-            token: authService.idToken!,
-            limit: 5,
-            partitionKey: _getPartitionKey(index),
-            partitionKeyValue: authService.sub!,
-          );
-        }
+        // if (result == true) {
+        //   final ondutyController = Get.find<OndutyController>();
+        //   ondutyController.fetchData(
+        //     tablename: "onDutyModel-2jskpek75veajd4yfnqjmkppmu-NONE",
+        //     indexname: _getIndexName(index),
+        //     token: authService.idToken!,
+        //     limit: 5,
+        //     partitionKey: _getPartitionKey(index),
+        //     partitionKeyValue: authService.sub!,
+        //   );
+        // }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -277,7 +274,4 @@ class StatusCard extends StatelessWidget {
         return 'Proctor';
     }
   }
-}
-
-class DetailsOnduty {
 }

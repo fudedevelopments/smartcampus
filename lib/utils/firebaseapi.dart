@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:smartcampus/bloc/repo/userprofilerepo.dart';
-import 'package:smartcampus/models/StaffUserProfile.dart';
+import 'package:smartcampus/models/ModelProvider.dart';
 
 class FirebaseApi {
   static final FirebaseApi _instance = FirebaseApi._internal();
@@ -24,7 +24,7 @@ class FirebaseApi {
 
   /// Checks if the device token in the user profile matches the current FCM token
   /// If they don't match, updates the token in the backend
-  Future<void> checkAndUpdateDeviceToken(StaffUserProfile userProfile) async {
+  Future<void> checkAndUpdateDeviceToken(StudentsUserProfile userProfile) async {
     try {
       // Get the current device token
       final currentDeviceToken = _fcmToken;
@@ -39,9 +39,7 @@ class FirebaseApi {
       final updatedProfile =
           userProfile.copyWith(deviceToken: currentDeviceToken);
 
-      // Update the token in the backend
-      await UserProfileRepo()
-          .updateUserProfileStaff(userprofile: updatedProfile);
+
 
       print('Device token updated successfully');
     } catch (e) {

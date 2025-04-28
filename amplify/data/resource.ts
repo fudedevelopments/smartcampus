@@ -32,8 +32,6 @@ const schema = a.schema({
     allow.authenticated().to(['read']),
   ]),
 
-
-
   onDutyModel: a.model({
     id: a.id().required(),
     name: a.string().required(),
@@ -54,7 +52,11 @@ const schema = a.schema({
     HodStatus: a.string().required(),
     createdAt: a.timestamp().required()
   })
-    .secondaryIndexes((index)=>[index('Hod'), index('Ac'),index('Proctor')])
+    .secondaryIndexes((index) =>
+      [index('Hod').sortKeys(['createdAt']),
+        index('Ac').sortKeys(['createdAt']),
+        index('Proctor').sortKeys(['createdAt'])
+      ])
     .authorization((allow) => [
     allow.owner(),
     allow.ownerDefinedIn('Proctor'),
