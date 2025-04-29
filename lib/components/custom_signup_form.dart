@@ -25,13 +25,12 @@ class CustomSignUpForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Student Registration heading
           const Text(
             "STUDENT REGISTRATION",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF2196F3), // Light blue
+              color: Color(0xFF2196F3), 
               letterSpacing: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -39,7 +38,6 @@ class CustomSignUpForm extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // Registration info
           Container(
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(bottom: 24),

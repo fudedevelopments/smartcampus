@@ -21,17 +21,20 @@
 
 import 'ModelProvider.dart';
 import 'package:amplify_core/amplify_core.dart' as amplify_core;
+import 'package:collection/collection.dart';
 
 
-/** This is an auto generated class representing the StaffUserProfile type in your schema. */
-class StaffUserProfile extends amplify_core.Model {
-  static const classType = const _StaffUserProfileModelType();
+/** This is an auto generated class representing the EventsModel type in your schema. */
+class EventsModel extends amplify_core.Model {
+  static const classType = const _EventsModelModelType();
   final String id;
-  final String? _name;
-  final String? _email;
-  final String? _department;
-  final String? _qualification;
-  final String? _deviceToken;
+  final String? _eventname;
+  final String? _location;
+  final amplify_core.TemporalDate? _date;
+  final String? _details;
+  final String? _registeredUrl;
+  final List<String>? _images;
+  final amplify_core.TemporalTimestamp? _expiray;
   final amplify_core.TemporalDateTime? _createdAt;
   final amplify_core.TemporalDateTime? _updatedAt;
 
@@ -42,15 +45,15 @@ class StaffUserProfile extends amplify_core.Model {
   @override
   String getId() => id;
   
-  StaffUserProfileModelIdentifier get modelIdentifier {
-      return StaffUserProfileModelIdentifier(
+  EventsModelModelIdentifier get modelIdentifier {
+      return EventsModelModelIdentifier(
         id: id
       );
   }
   
-  String get name {
+  String get eventname {
     try {
-      return _name!;
+      return _eventname!;
     } catch(e) {
       throw amplify_core.AmplifyCodeGenModelException(
           amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -61,9 +64,9 @@ class StaffUserProfile extends amplify_core.Model {
     }
   }
   
-  String get email {
+  String get location {
     try {
-      return _email!;
+      return _location!;
     } catch(e) {
       throw amplify_core.AmplifyCodeGenModelException(
           amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -74,9 +77,9 @@ class StaffUserProfile extends amplify_core.Model {
     }
   }
   
-  String get department {
+  amplify_core.TemporalDate get date {
     try {
-      return _department!;
+      return _date!;
     } catch(e) {
       throw amplify_core.AmplifyCodeGenModelException(
           amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -87,9 +90,13 @@ class StaffUserProfile extends amplify_core.Model {
     }
   }
   
-  String get qualification {
+  String? get details {
+    return _details;
+  }
+  
+  String get registeredUrl {
     try {
-      return _qualification!;
+      return _registeredUrl!;
     } catch(e) {
       throw amplify_core.AmplifyCodeGenModelException(
           amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -100,17 +107,12 @@ class StaffUserProfile extends amplify_core.Model {
     }
   }
   
-  String get deviceToken {
-    try {
-      return _deviceToken!;
-    } catch(e) {
-      throw amplify_core.AmplifyCodeGenModelException(
-          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
-          recoverySuggestion:
-            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
-          underlyingException: e.toString()
-          );
-    }
+  List<String>? get images {
+    return _images;
+  }
+  
+  amplify_core.TemporalTimestamp? get expiray {
+    return _expiray;
   }
   
   amplify_core.TemporalDateTime? get createdAt {
@@ -121,16 +123,18 @@ class StaffUserProfile extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const StaffUserProfile._internal({required this.id, required name, required email, required department, required qualification, required deviceToken, createdAt, updatedAt}): _name = name, _email = email, _department = department, _qualification = qualification, _deviceToken = deviceToken, _createdAt = createdAt, _updatedAt = updatedAt;
+  const EventsModel._internal({required this.id, required eventname, required location, required date, details, required registeredUrl, images, expiray, createdAt, updatedAt}): _eventname = eventname, _location = location, _date = date, _details = details, _registeredUrl = registeredUrl, _images = images, _expiray = expiray, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory StaffUserProfile({String? id, required String name, required String email, required String department, required String qualification, required String deviceToken}) {
-    return StaffUserProfile._internal(
+  factory EventsModel({String? id, required String eventname, required String location, required amplify_core.TemporalDate date, String? details, required String registeredUrl, List<String>? images, amplify_core.TemporalTimestamp? expiray}) {
+    return EventsModel._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
-      name: name,
-      email: email,
-      department: department,
-      qualification: qualification,
-      deviceToken: deviceToken);
+      eventname: eventname,
+      location: location,
+      date: date,
+      details: details,
+      registeredUrl: registeredUrl,
+      images: images != null ? List<String>.unmodifiable(images) : images,
+      expiray: expiray);
   }
   
   bool equals(Object other) {
@@ -140,13 +144,15 @@ class StaffUserProfile extends amplify_core.Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is StaffUserProfile &&
+    return other is EventsModel &&
       id == other.id &&
-      _name == other._name &&
-      _email == other._email &&
-      _department == other._department &&
-      _qualification == other._qualification &&
-      _deviceToken == other._deviceToken;
+      _eventname == other._eventname &&
+      _location == other._location &&
+      _date == other._date &&
+      _details == other._details &&
+      _registeredUrl == other._registeredUrl &&
+      DeepCollectionEquality().equals(_images, other._images) &&
+      _expiray == other._expiray;
   }
   
   @override
@@ -156,13 +162,15 @@ class StaffUserProfile extends amplify_core.Model {
   String toString() {
     var buffer = new StringBuffer();
     
-    buffer.write("StaffUserProfile {");
+    buffer.write("EventsModel {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("name=" + "$_name" + ", ");
-    buffer.write("email=" + "$_email" + ", ");
-    buffer.write("department=" + "$_department" + ", ");
-    buffer.write("qualification=" + "$_qualification" + ", ");
-    buffer.write("deviceToken=" + "$_deviceToken" + ", ");
+    buffer.write("eventname=" + "$_eventname" + ", ");
+    buffer.write("location=" + "$_location" + ", ");
+    buffer.write("date=" + (_date != null ? _date!.format() : "null") + ", ");
+    buffer.write("details=" + "$_details" + ", ");
+    buffer.write("registeredUrl=" + "$_registeredUrl" + ", ");
+    buffer.write("images=" + (_images != null ? _images!.toString() : "null") + ", ");
+    buffer.write("expiray=" + (_expiray != null ? _expiray!.toString() : "null") + ", ");
     buffer.write("createdAt=" + (_createdAt != null ? _createdAt!.format() : "null") + ", ");
     buffer.write("updatedAt=" + (_updatedAt != null ? _updatedAt!.format() : "null"));
     buffer.write("}");
@@ -170,130 +178,143 @@ class StaffUserProfile extends amplify_core.Model {
     return buffer.toString();
   }
   
-  StaffUserProfile copyWith({String? name, String? email, String? department, String? qualification, String? deviceToken}) {
-    return StaffUserProfile._internal(
+  EventsModel copyWith({String? eventname, String? location, amplify_core.TemporalDate? date, String? details, String? registeredUrl, List<String>? images, amplify_core.TemporalTimestamp? expiray}) {
+    return EventsModel._internal(
       id: id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      department: department ?? this.department,
-      qualification: qualification ?? this.qualification,
-      deviceToken: deviceToken ?? this.deviceToken);
+      eventname: eventname ?? this.eventname,
+      location: location ?? this.location,
+      date: date ?? this.date,
+      details: details ?? this.details,
+      registeredUrl: registeredUrl ?? this.registeredUrl,
+      images: images ?? this.images,
+      expiray: expiray ?? this.expiray);
   }
   
-  StaffUserProfile copyWithModelFieldValues({
-    ModelFieldValue<String>? name,
-    ModelFieldValue<String>? email,
-    ModelFieldValue<String>? department,
-    ModelFieldValue<String>? qualification,
-    ModelFieldValue<String>? deviceToken
+  EventsModel copyWithModelFieldValues({
+    ModelFieldValue<String>? eventname,
+    ModelFieldValue<String>? location,
+    ModelFieldValue<amplify_core.TemporalDate>? date,
+    ModelFieldValue<String?>? details,
+    ModelFieldValue<String>? registeredUrl,
+    ModelFieldValue<List<String>?>? images,
+    ModelFieldValue<amplify_core.TemporalTimestamp?>? expiray
   }) {
-    return StaffUserProfile._internal(
+    return EventsModel._internal(
       id: id,
-      name: name == null ? this.name : name.value,
-      email: email == null ? this.email : email.value,
-      department: department == null ? this.department : department.value,
-      qualification: qualification == null ? this.qualification : qualification.value,
-      deviceToken: deviceToken == null ? this.deviceToken : deviceToken.value
+      eventname: eventname == null ? this.eventname : eventname.value,
+      location: location == null ? this.location : location.value,
+      date: date == null ? this.date : date.value,
+      details: details == null ? this.details : details.value,
+      registeredUrl: registeredUrl == null ? this.registeredUrl : registeredUrl.value,
+      images: images == null ? this.images : images.value,
+      expiray: expiray == null ? this.expiray : expiray.value
     );
   }
   
-  StaffUserProfile.fromJson(Map<String, dynamic> json)  
+  EventsModel.fromJson(Map<String, dynamic> json)  
     : id = json['id'],
-      _name = json['name'],
-      _email = json['email'],
-      _department = json['department'],
-      _qualification = json['qualification'],
-      _deviceToken = json['deviceToken'],
+      _eventname = json['eventname'],
+      _location = json['location'],
+      _date = json['date'] != null ? amplify_core.TemporalDate.fromString(json['date']) : null,
+      _details = json['details'],
+      _registeredUrl = json['registeredUrl'],
+      _images = json['images']?.cast<String>(),
+      _expiray = json['expiray'] != null ? amplify_core.TemporalTimestamp.fromSeconds(json['expiray']) : null,
       _createdAt = json['createdAt'] != null ? amplify_core.TemporalDateTime.fromString(json['createdAt']) : null,
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'email': _email, 'department': _department, 'qualification': _qualification, 'deviceToken': _deviceToken, 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'eventname': _eventname, 'location': _location, 'date': _date?.format(), 'details': _details, 'registeredUrl': _registeredUrl, 'images': _images, 'expiray': _expiray?.toSeconds(), 'createdAt': _createdAt?.format(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
     'id': id,
-    'name': _name,
-    'email': _email,
-    'department': _department,
-    'qualification': _qualification,
-    'deviceToken': _deviceToken,
+    'eventname': _eventname,
+    'location': _location,
+    'date': _date,
+    'details': _details,
+    'registeredUrl': _registeredUrl,
+    'images': _images,
+    'expiray': _expiray,
     'createdAt': _createdAt,
     'updatedAt': _updatedAt
   };
 
-  static final amplify_core.QueryModelIdentifier<StaffUserProfileModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<StaffUserProfileModelIdentifier>();
+  static final amplify_core.QueryModelIdentifier<EventsModelModelIdentifier> MODEL_IDENTIFIER = amplify_core.QueryModelIdentifier<EventsModelModelIdentifier>();
   static final ID = amplify_core.QueryField(fieldName: "id");
-  static final NAME = amplify_core.QueryField(fieldName: "name");
-  static final EMAIL = amplify_core.QueryField(fieldName: "email");
-  static final DEPARTMENT = amplify_core.QueryField(fieldName: "department");
-  static final QUALIFICATION = amplify_core.QueryField(fieldName: "qualification");
-  static final DEVICETOKEN = amplify_core.QueryField(fieldName: "deviceToken");
+  static final EVENTNAME = amplify_core.QueryField(fieldName: "eventname");
+  static final LOCATION = amplify_core.QueryField(fieldName: "location");
+  static final DATE = amplify_core.QueryField(fieldName: "date");
+  static final DETAILS = amplify_core.QueryField(fieldName: "details");
+  static final REGISTEREDURL = amplify_core.QueryField(fieldName: "registeredUrl");
+  static final IMAGES = amplify_core.QueryField(fieldName: "images");
+  static final EXPIRAY = amplify_core.QueryField(fieldName: "expiray");
   static var schema = amplify_core.Model.defineSchema(define: (amplify_core.ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "StaffUserProfile";
-    modelSchemaDefinition.pluralName = "StaffUserProfiles";
+    modelSchemaDefinition.name = "EventsModel";
+    modelSchemaDefinition.pluralName = "EventsModels";
     
     modelSchemaDefinition.authRules = [
       amplify_core.AuthRule(
+        authStrategy: amplify_core.AuthStrategy.PRIVATE,
+        operations: const [
+          amplify_core.ModelOperation.READ
+        ]),
+      amplify_core.AuthRule(
         authStrategy: amplify_core.AuthStrategy.GROUPS,
         groupClaim: "cognito:groups",
-        groups: [ "STAFF" ],
+        groups: [ "ADMINS", "STAFF" ],
         provider: amplify_core.AuthRuleProvider.USERPOOLS,
         operations: const [
           amplify_core.ModelOperation.CREATE,
           amplify_core.ModelOperation.UPDATE,
           amplify_core.ModelOperation.DELETE,
           amplify_core.ModelOperation.READ
-        ]),
-      amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.GROUPS,
-        groupClaim: "cognito:groups",
-        groups: [ "ADMINS" ],
-        provider: amplify_core.AuthRuleProvider.USERPOOLS,
-        operations: const [
-          amplify_core.ModelOperation.READ
-        ]),
-      amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.PRIVATE,
-        operations: const [
-          amplify_core.ModelOperation.READ
         ])
-    ];
-    
-    modelSchemaDefinition.indexes = [
-      amplify_core.ModelIndex(fields: const ["id"], name: null)
     ];
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.id());
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: StaffUserProfile.NAME,
+      key: EventsModel.EVENTNAME,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: StaffUserProfile.EMAIL,
+      key: EventsModel.LOCATION,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: StaffUserProfile.DEPARTMENT,
+      key: EventsModel.DATE,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.date)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: EventsModel.DETAILS,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: EventsModel.REGISTEREDURL,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: StaffUserProfile.QUALIFICATION,
-      isRequired: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+      key: EventsModel.IMAGES,
+      isRequired: false,
+      isArray: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.collection, ofModelName: amplify_core.ModelFieldTypeEnum.string.name)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
-      key: StaffUserProfile.DEVICETOKEN,
-      isRequired: true,
-      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+      key: EventsModel.EXPIRAY,
+      isRequired: false,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.timestamp)
     ));
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.nonQueryField(
@@ -312,29 +333,29 @@ class StaffUserProfile extends amplify_core.Model {
   });
 }
 
-class _StaffUserProfileModelType extends amplify_core.ModelType<StaffUserProfile> {
-  const _StaffUserProfileModelType();
+class _EventsModelModelType extends amplify_core.ModelType<EventsModel> {
+  const _EventsModelModelType();
   
   @override
-  StaffUserProfile fromJson(Map<String, dynamic> jsonData) {
-    return StaffUserProfile.fromJson(jsonData);
+  EventsModel fromJson(Map<String, dynamic> jsonData) {
+    return EventsModel.fromJson(jsonData);
   }
   
   @override
   String modelName() {
-    return 'StaffUserProfile';
+    return 'EventsModel';
   }
 }
 
 /**
  * This is an auto generated class representing the model identifier
- * of [StaffUserProfile] in your schema.
+ * of [EventsModel] in your schema.
  */
-class StaffUserProfileModelIdentifier implements amplify_core.ModelIdentifier<StaffUserProfile> {
+class EventsModelModelIdentifier implements amplify_core.ModelIdentifier<EventsModel> {
   final String id;
 
-  /** Create an instance of StaffUserProfileModelIdentifier using [id] the primary key. */
-  const StaffUserProfileModelIdentifier({
+  /** Create an instance of EventsModelModelIdentifier using [id] the primary key. */
+  const EventsModelModelIdentifier({
     required this.id});
   
   @override
@@ -352,7 +373,7 @@ class StaffUserProfileModelIdentifier implements amplify_core.ModelIdentifier<St
   String serializeAsString() => serializeAsMap().values.join('#');
   
   @override
-  String toString() => 'StaffUserProfileModelIdentifier(id: $id)';
+  String toString() => 'EventsModelModelIdentifier(id: $id)';
   
   @override
   bool operator ==(Object other) {
@@ -360,7 +381,7 @@ class StaffUserProfileModelIdentifier implements amplify_core.ModelIdentifier<St
       return true;
     }
     
-    return other is StaffUserProfileModelIdentifier &&
+    return other is EventsModelModelIdentifier &&
       id == other.id;
   }
   

@@ -13,7 +13,7 @@ export const auth = defineAuth({
   },
   groups: ["ADMINS", "STAFF"],
   access: (allow) => [
-    allow.resource(createUser).to(["createUser"]),
+    allow.resource(createUser).to(["createUser","addUserToGroup"]),
     allow.resource(listUsersInGroup).to(["listUsersInGroup"]),
   ],
 });

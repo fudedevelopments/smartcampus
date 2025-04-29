@@ -48,7 +48,7 @@ class _FilePickerBoxUIState extends State<FilePickerBoxUI> {
 
   Future<void> _uploadFile(File file) async {
     try {
-      String fileName = file.path.split('/').last; // Extract file name
+      String fileName = file.path.split('/').last; 
       String fileExtension = fileName.split('.').last; // Extract file extension
       String uniqueFileName =
           '${const Uuid().v4()}.$fileExtension'; // Unique name with extension

@@ -1,6 +1,8 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { createUser } from '../functions/createuser/resources';
 import { listUsersInGroup } from '../functions/listusersingroup/resource';
+import { cognitoCredentialsProvider } from 'aws-amplify/auth/cognito';
+import { AdminAddUserToGroupCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 const schema = a.schema({
   StudentsUserProfile: a.model({
@@ -45,6 +47,7 @@ const schema = a.schema({
     eventname: a.string().required(),
     location: a.string().required(),
     date: a.date().required(),
+    details: a.string(),
     registeredUrl: a.string().required(),
     validDocuments: a.string().array().required(),
     proctorstatus: a.string().required(),
@@ -64,8 +67,17 @@ const schema = a.schema({
     allow.ownerDefinedIn('Hod'),
     ]),
   
-  
-  
+  EventsModel: a.model({
+    eventname: a.string().required(),
+    location: a.string().required(),
+    date: a.date().required(),
+    details: a.string(),
+    registeredUrl: a.string().required(),
+    images: a.string().array(),
+    expiray : a.timestamp()
+  }).authorization((allow) => [
+    allow.authenticated().to(['read']),
+    allow.groups(["ADMINS", "STAFF"])]),
   
     createUser: a
     .mutation()
@@ -74,7 +86,8 @@ const schema = a.schema({
       email: a.email().required(),
       password: a.string().required(),
     })
-    .authorization((allow) => [allow.group("ADMINS")])
+      .authorization((allow) => [
+        allow.group("ADMINS")])
     .handler(a.handler.function(createUser))
     .returns(a.json()),
     
@@ -87,7 +100,7 @@ const schema = a.schema({
     .handler(a.handler.function(listUsersInGroup))
     .returns(a.json()),
 
-});
+})
 
 export type Schema = ClientSchema<typeof schema>;
 
