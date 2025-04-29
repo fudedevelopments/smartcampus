@@ -1,8 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { createUser } from '../functions/createuser/resources';
 import { listUsersInGroup } from '../functions/listusersingroup/resource';
-import { cognitoCredentialsProvider } from 'aws-amplify/auth/cognito';
-import { AdminAddUserToGroupCommand } from '@aws-sdk/client-cognito-identity-provider';
 
 const schema = a.schema({
   StudentsUserProfile: a.model({
@@ -75,6 +73,12 @@ const schema = a.schema({
     registeredUrl: a.string().required(),
     images: a.string().array(),
     expiray : a.timestamp()
+  }).authorization((allow) => [
+    allow.authenticated().to(['read']),
+    allow.groups(["ADMINS", "STAFF"])]),
+  
+  BannerImages: a.model({
+  images: a.string().array(),
   }).authorization((allow) => [
     allow.authenticated().to(['read']),
     allow.groups(["ADMINS", "STAFF"])]),

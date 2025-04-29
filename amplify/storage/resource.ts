@@ -11,5 +11,9 @@ export const storage = defineStorage({
             allow.groups(['ADMINS', 'STAFF']).to(['read', 'write', 'delete']),
             allow.authenticated.to(['read', 'write','delete']),
         ],
+        'bannerimages/*': [
+            allow.groups(['ADMINS', 'STAFF']).to(['read', 'write', 'delete']),
+            allow.authenticated.to(['read', 'write', 'delete']),
+        ],
     })
 });

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -18,31 +17,8 @@ class ElegantForm extends StatefulWidget {
   _ElegantFormState createState() => _ElegantFormState();
 }
 
-class _ElegantFormState extends State<ElegantForm>
-    with SingleTickerProviderStateMixin {
+class _ElegantFormState extends State<ElegantForm> {
   final OnDutyController controller = Get.put(OnDutyController());
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-    _fadeAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    );
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,334 +35,203 @@ class _ElegantFormState extends State<ElegantForm>
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.indigo.shade50,
-                  Colors.white,
-                ],
-              ),
-            ),
-            child: SafeArea(
-              child: Center(
-                child: SingleChildScrollView(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: Container(
-                          width: constraints.maxWidth > 800
-                              ? 800
-                              : constraints.maxWidth,
-                          padding: const EdgeInsets.all(16.0),
-                          child: Form(
-                            key: controller.formKey,
-                            child: Column(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.indigo.shade50,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Container(
+                    width:
+                        constraints.maxWidth > 800 ? 800 : constraints.maxWidth,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: controller.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionTitle('Student Information'),
+                              BlocBuilder<UserprofileBloc, UserprofileState>(
+                                builder: (context, state) {
+                                  if (state is UserProfileSucessState) {
+                                    // Update controller values with profile data
+                                    controller.studentNameController.text =
+                                        state.userProfile.name;
+                                    controller.emailController.text =
+                                        state.userProfile.email;
+                                    controller.regNo = state.userProfile.regNo;
+                                    controller.department =
+                                        state.userProfile.department;
+                                    controller.year = state.userProfile.year;
+                                    controller.proctor =
+                                        state.userProfile.Proctor;
+                                    controller.ac = state.userProfile.Ac;
+                                    controller.hod = state.userProfile.Hod;
+
+                                    return _buildInfoCard(state.userProfile);
+                                  } else if (state is UserProfileLoadingState) {
+                                    return const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: Text(
+                                            "Profile information not available"),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          _buildSectionTitle('Request Details'),
+
+                          // Responsive layout for larger screens
+                          if (constraints.maxWidth > 600)
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _buildAnimatedSection(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      _buildSectionTitle('Student Information'),
-                                      BlocBuilder<UserprofileBloc,
-                                          UserprofileState>(
-                                        builder: (context, state) {
-                                          if (state is UserProfileSucessState) {
-                                            // Update controller values with profile data
-                                            controller.studentNameController
-                                                .text = state.userProfile.name;
-                                            controller.emailController.text =
-                                                state.userProfile.email;
-                                            controller.regNo =
-                                                state.userProfile.regNo;
-                                            controller.department =
-                                                state.userProfile.department;
-                                            controller.year =
-                                                state.userProfile.year;
-                                            controller.proctor =
-                                                state.userProfile.Proctor;
-                                            controller.ac =
-                                                state.userProfile.Ac;
-                                            controller.hod =
-                                                state.userProfile.Hod;
-
-                                            return _buildInfoCard(
-                                                state.userProfile);
-                                          } else if (state
-                                              is UserProfileLoadingState) {
-                                            return const Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(20.0),
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              ),
-                                            );
-                                          } else {
-                                            return const Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(20.0),
-                                                child: Text(
-                                                    "Profile information not available"),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  delay: 0,
-                                ),
-
-                                const SizedBox(height: 24),
-
-                                _buildAnimatedSection(
-                                  child: _buildSectionTitle('Request Details'),
-                                  delay: 0.2,
-                                ),
-
-                                // Responsive layout for larger screens
-                                if (constraints.maxWidth > 600)
-                                  _buildAnimatedSection(
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: _buildInputField(
-                                            label: 'Request Name',
-                                            hint:
-                                                'Enter the name of your request',
-                                            controller:
-                                                controller.eventNameController,
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Please enter a request name';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(width: 16),
-                                        Expanded(
-                                          child: _buildDatePicker(),
-                                        ),
-                                      ],
-                                    ),
-                                    delay: 0.3,
-                                  )
-                                else
-                                  Column(
-                                    children: [
-                                      _buildAnimatedSection(
-                                        child: _buildInputField(
-                                          label: 'Request Name',
-                                          hint:
-                                              'Enter the name of your request',
-                                          controller:
-                                              controller.eventNameController,
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter a request name';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        delay: 0.3,
-                                      ),
-                                      _buildAnimatedSection(
-                                        child: _buildDatePicker(),
-                                        delay: 0.4,
-                                      ),
-                                    ],
-                                  ),
-
-                                _buildAnimatedSection(
+                                Expanded(
                                   child: _buildInputField(
-                                    label: 'Description',
-                                    hint: 'Provide details about your request',
+                                    label: 'Request Name',
+                                    hint: 'Enter the name of your request',
+                                    controller: controller.eventNameController,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a request name';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: _buildDatePicker(),
+                                ),
+                              ],
+                            )
+                          else
+                            Column(
+                              children: [
+                                _buildInputField(
+                                  label: 'Request Name',
+                                  hint: 'Enter the name of your request',
+                                  controller: controller.eventNameController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a request name';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                _buildDatePicker(),
+                              ],
+                            ),
+
+                          _buildInputField(
+                            label: 'Description',
+                            hint: 'Provide details about your request',
+                            controller: controller.descriptionController,
+                            maxLines: 4,
+                          ),
+
+                          // Responsive layout for larger screens
+                          if (constraints.maxWidth > 600)
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: _buildInputField(
+                                    label: 'Location',
+                                    hint: 'Enter the location',
+                                    controller: controller.locationController,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a location';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: _buildInputField(
+                                    label: 'Registration URL',
+                                    hint:
+                                        'Enter the event registration URL (if any)',
                                     controller:
-                                        controller.descriptionController,
-                                    maxLines: 4,
+                                        controller.registerUrlController,
                                   ),
-                                  delay: 0.5,
                                 ),
-
-                                // Responsive layout for larger screens
-                                if (constraints.maxWidth > 600)
-                                  _buildAnimatedSection(
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          child: _buildInputField(
-                                            label: 'Location',
-                                            hint: 'Enter the location',
-                                            controller:
-                                                controller.locationController,
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Please enter a location';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(width: 16),
-                                        Expanded(
-                                          child: _buildInputField(
-                                            label: 'Registration URL',
-                                            hint:
-                                                'Enter the event registration URL (if any)',
-                                            controller: controller
-                                                .registerUrlController,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    delay: 0.6,
-                                  )
-                                else
-                                  Column(
-                                    children: [
-                                      _buildAnimatedSection(
-                                        child: _buildInputField(
-                                          label: 'Location',
-                                          hint: 'Enter the location',
-                                          controller:
-                                              controller.locationController,
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return 'Please enter a location';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        delay: 0.6,
-                                      ),
-                                      _buildAnimatedSection(
-                                        child: _buildInputField(
-                                          label: 'Registration URL',
-                                          hint:
-                                              'Enter the event registration URL (if any)',
-                                          controller:
-                                              controller.registerUrlController,
-                                        ),
-                                        delay: 0.7,
-                                      ),
-                                    ],
-                                  ),
-
-                                const SizedBox(height: 24),
-
-                                _buildAnimatedSection(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      _buildSectionTitle(
-                                          'Supporting Documents'),
-                                      const SizedBox(height: 8),
-                                      FilePickerBoxUI(
-                                        selectfiles: controller.selectedFiles,
-                                        onFilesUpdated:
-                                            controller.updateFileUrls,
-                                      ),
-                                    ],
-                                  ),
-                                  delay: 0.8,
+                              ],
+                            )
+                          else
+                            Column(
+                              children: [
+                                _buildInputField(
+                                  label: 'Location',
+                                  hint: 'Enter the location',
+                                  controller: controller.locationController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a location';
+                                    }
+                                    return null;
+                                  },
                                 ),
-
-                                const SizedBox(height: 32),
-
-                                _buildAnimatedSection(
-                                  child: _buildSubmitButton(),
-                                  delay: 0.9,
+                                _buildInputField(
+                                  label: 'Registration URL',
+                                  hint:
+                                      'Enter the event registration URL (if any)',
+                                  controller: controller.registerUrlController,
                                 ),
                               ],
                             ),
+
+                          const SizedBox(height: 24),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildSectionTitle('Supporting Documents'),
+                              const SizedBox(height: 8),
+                              FilePickerBoxUI(
+                                selectfiles: controller.selectedFiles,
+                                onFilesUpdated: controller.updateFileUrls,
+                              ),
+                            ],
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+
+                          const SizedBox(height: 32),
+
+                          _buildSubmitButton(),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
-          ),
-          if (controller.isLoading.value) _buildLoadingOverlay(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAnimatedSection({required Widget child, required double delay}) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, _) {
-        final start = delay;
-        final end = delay + 0.4;
-        final value = (_animationController.value - start) / (end - start);
-        final opacity = value.clamp(0.0, 1.0);
-        final offset = (1 - opacity) * 20;
-
-        return Opacity(
-          opacity: opacity,
-          child: Transform.translate(
-            offset: Offset(0, offset),
-            child: child,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLoadingOverlay() {
-    return AnimatedOpacity(
-      opacity: 1.0,
-      duration: const Duration(milliseconds: 300),
-      child: Container(
-        color: Colors.black.withOpacity(0.5),
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(
-                  color: Colors.indigo,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Submitting...',
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
             ),
           ),
         ),
@@ -658,25 +503,36 @@ class _ElegantFormState extends State<ElegantForm>
   Widget _buildSubmitButton() {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => controller.submitForm(),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.indigo,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 0,
-        ),
-        child: Text(
-          'Submit Request',
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
+      child: Obx(() => ElevatedButton(
+            onPressed: controller.isLoading.value
+                ? null
+                : () => controller.submitForm(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.indigo,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            child: controller.isLoading.value
+                ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2.0,
+                    ),
+                  )
+                : Text(
+                    'Submit Request',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+          )),
     );
   }
 }

@@ -11,7 +11,6 @@ import 'package:smartcampus/onduty/repo/ondutyrepo.dart';
 import 'package:intl/intl.dart';
 
 class OnDutyController extends GetxController {
-  // Repository
   final OnDutyRepository _repository = OnDutyRepository();
 
   // Form controllers
@@ -114,8 +113,10 @@ class OnDutyController extends GetxController {
       return;
     }
 
+    // Set loading state at the beginning
+    isLoading.value = true;
+
     try {
-      isLoading.value = true;
       errorMessage.value = '';
 
       // Call repository to create OnDuty using student profile data
@@ -138,34 +139,57 @@ class OnDutyController extends GetxController {
 
       if (success) {
         isSuccess.value = true;
-        Get.snackbar(
-          'Success',
-          'On-duty request submitted successfully',
+        // Show success message using SnackBar
+        Get.rawSnackbar(
+          message: 'On-duty request submitted successfully',
           backgroundColor: Colors.green,
-          colorText: Colors.white,
+          duration: const Duration(seconds: 3),
           snackPosition: SnackPosition.BOTTOM,
-          duration: const Duration(seconds: 2),
+          margin: const EdgeInsets.all(15),
+          borderRadius: 10,
         );
 
-        // Navigate to OnDuty UI after successful submission
-        await Future.delayed(const Duration(seconds: 2));
-        Get.offAll(() => const OndutyUI());
+        // Reset the form
+        resetForm();
       } else {
         errorMessage.value = 'Failed to create on-duty request';
-        throw Exception('Failed to create on-duty request');
+        // Show error message
+        Get.rawSnackbar(
+          message: 'Failed to create on-duty request',
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 3),
+          snackPosition: SnackPosition.BOTTOM,
+          margin: const EdgeInsets.all(15),
+          borderRadius: 10,
+        );
       }
     } catch (e) {
       errorMessage.value = 'Failed to submit: ${e.toString()}';
-      Get.snackbar(
-        'Error',
-        errorMessage.value,
+      print('Error in submitForm: ${e.toString()}');
+      // Show error message
+      Get.rawSnackbar(
+        message: 'Error: ${e.toString()}',
         backgroundColor: Colors.red,
-        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
         snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(15),
+        borderRadius: 10,
       );
     } finally {
+      // Always reset loading state, even if there are errors or early returns
       isLoading.value = false;
     }
+  }
+
+  // Reset the form fields
+  void resetForm() {
+    eventNameController.clear();
+    dateController.clear();
+    locationController.clear();
+    registerUrlController.clear();
+    descriptionController.clear();
+    selectedFiles.clear();
+    uploadedFileUrls.clear();
   }
 
   @override

@@ -4,7 +4,6 @@ import 'package:smartcampus/models/onDutyModel.dart';
 import 'package:uuid/uuid.dart';
 
 class OnDutyRepository {
-  // Create an on-duty request
   Future<bool> createOnDuty({
     required String name,
     required String regNo,
@@ -46,7 +45,6 @@ class OnDutyRepository {
 
       final request = ModelMutations.create(onduty);
       final response = await Amplify.API.mutate(request: request).response;
-
       if (response.errors.isEmpty) {
         return true;
       } else {

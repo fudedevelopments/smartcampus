@@ -104,8 +104,7 @@ class _SplashScreenState extends State<SplashScreen>
               // Animated background
               Positioned.fill(
                 child: CustomPaint(
-                  painter:
-                      EducationBackgroundPainter(_backgroundAnimation.value),
+                  painter: StudentBackgroundPainter(_backgroundAnimation.value),
                 ),
               ),
 
@@ -124,7 +123,7 @@ class _SplashScreenState extends State<SplashScreen>
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF1A237E).withOpacity(0.3),
+                              color: const Color(0xFF1565C0).withOpacity(0.3),
                               blurRadius: 30,
                               spreadRadius: 5,
                             ),
@@ -132,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         child: ClipOval(
                           child: Image.asset(
-                            'assets/images/logostaff.jpeg',
+                            'assets/images/icon.jpeg',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -141,23 +140,23 @@ class _SplashScreenState extends State<SplashScreen>
 
                     const SizedBox(height: 40),
 
-                    // Education icons row
+                    // Student icons row
                     Opacity(
                       opacity: _iconAnimation.value,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildEducationIcon(
+                          _buildStudentIcon(
                               Icons.school, _iconAnimation.value * 0.7),
                           const SizedBox(width: 20),
-                          _buildEducationIcon(
-                              Icons.people, _iconAnimation.value * 0.8),
+                          _buildStudentIcon(
+                              Icons.menu_book, _iconAnimation.value * 0.8),
                           const SizedBox(width: 20),
-                          _buildEducationIcon(Icons.admin_panel_settings,
-                              _iconAnimation.value * 0.9),
+                          _buildStudentIcon(
+                              Icons.library_books, _iconAnimation.value * 0.9),
                           const SizedBox(width: 20),
-                          _buildEducationIcon(
-                              Icons.menu_book, _iconAnimation.value),
+                          _buildStudentIcon(
+                              Icons.calendar_today, _iconAnimation.value),
                         ],
                       ),
                     ),
@@ -174,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
                           style: TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF1A237E),
+                            color: Color(0xFF1565C0),
                             letterSpacing: 1.0,
                           ),
                         ),
@@ -183,7 +182,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                     const SizedBox(height: 8),
 
-                    // Staff Portal text with slide animation
+                    // Student Portal text with slide animation
                     Transform.translate(
                       offset: Offset(0, _textSlideAnimation.value * 0.8),
                       child: Opacity(
@@ -192,11 +191,11 @@ class _SplashScreenState extends State<SplashScreen>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 6),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF1A237E),
+                            color: const Color(0xFF1565C0),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: const Text(
-                            'Staff Portal',
+                            'Student Portal',
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w600,
@@ -255,8 +254,8 @@ class _SplashScreenState extends State<SplashScreen>
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Color.lerp(
-                            const Color(0xFF1A237E),
                             const Color(0xFF1565C0),
+                            const Color(0xFF64B5F6),
                             _backgroundAnimation.value)!,
                       ),
                       strokeWidth: 3,
@@ -271,7 +270,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  Widget _buildEducationIcon(IconData icon, double animationValue) {
+  Widget _buildStudentIcon(IconData icon, double animationValue) {
     return Transform.scale(
       scale: animationValue,
       child: Container(
@@ -290,7 +289,7 @@ class _SplashScreenState extends State<SplashScreen>
         ),
         child: Icon(
           icon,
-          color: const Color(0xFF1A237E),
+          color: const Color(0xFF1565C0),
           size: 24,
         ),
       ),
@@ -298,10 +297,10 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-class EducationBackgroundPainter extends CustomPainter {
+class StudentBackgroundPainter extends CustomPainter {
   final double animationValue;
 
-  EducationBackgroundPainter(this.animationValue);
+  StudentBackgroundPainter(this.animationValue);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -311,9 +310,9 @@ class EducationBackgroundPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          const Color(0xFFE8EAF6),
-          const Color(0xFFC5CAE9),
-          Color.lerp(const Color(0xFFC5CAE9), const Color(0xFF9FA8DA),
+          const Color(0xFFE3F2FD),
+          const Color(0xFFBBDEFB),
+          Color.lerp(const Color(0xFFBBDEFB), const Color(0xFF90CAF9),
               animationValue)!,
         ],
         stops: [0.0, 0.6, 1.0],
@@ -321,11 +320,11 @@ class EducationBackgroundPainter extends CustomPainter {
 
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
 
-    // Draw education-themed elements
-    drawEducationElements(canvas, size);
+    // Draw student-themed elements
+    drawStudentElements(canvas, size);
   }
 
-  void drawEducationElements(Canvas canvas, Size size) {
+  void drawStudentElements(Canvas canvas, Size size) {
     // Draw books
     drawBook(canvas, Offset(size.width * 0.1, size.height * 0.2),
         size.width * 0.08, animationValue);
@@ -340,13 +339,21 @@ class EducationBackgroundPainter extends CustomPainter {
     drawPencil(canvas, Offset(size.width * 0.15, size.height * 0.8),
         size.width * 0.15, 1 - animationValue);
 
-    // Draw grid pattern
-    drawGrid(canvas, size);
+    // Draw notebook
+    drawNotebook(canvas, Offset(size.width * 0.65, size.height * 0.65),
+        size.width * 0.12, animationValue);
+
+    // Draw calendar
+    drawCalendar(canvas, Offset(size.width * 0.25, size.height * 0.35),
+        size.width * 0.08, 1 - animationValue);
+
+    // Draw circles pattern
+    drawCirclesPattern(canvas, size);
   }
 
   void drawBook(Canvas canvas, Offset position, double size, double animation) {
     final bookPaint = Paint()
-      ..color = const Color(0xFF1A237E).withOpacity(0.05 + 0.05 * animation)
+      ..color = const Color(0xFF1565C0).withOpacity(0.05 + 0.05 * animation)
       ..style = PaintingStyle.fill;
 
     final path = Path();
@@ -360,7 +367,7 @@ class EducationBackgroundPainter extends CustomPainter {
 
     // Book spine
     final spinePaint = Paint()
-      ..color = const Color(0xFF1A237E).withOpacity(0.1 + 0.05 * animation)
+      ..color = const Color(0xFF1565C0).withOpacity(0.1 + 0.05 * animation)
       ..style = PaintingStyle.fill;
 
     final spinePath = Path();
@@ -376,7 +383,7 @@ class EducationBackgroundPainter extends CustomPainter {
   void drawGraduationCap(
       Canvas canvas, Offset position, double size, double animation) {
     final capPaint = Paint()
-      ..color = const Color(0xFF1A237E).withOpacity(0.05 + 0.05 * animation)
+      ..color = const Color(0xFF1565C0).withOpacity(0.05 + 0.05 * animation)
       ..style = PaintingStyle.fill;
 
     // Cap base
@@ -400,7 +407,7 @@ class EducationBackgroundPainter extends CustomPainter {
   void drawPencil(
       Canvas canvas, Offset position, double size, double animation) {
     final pencilPaint = Paint()
-      ..color = const Color(0xFF1A237E).withOpacity(0.05 + 0.05 * animation)
+      ..color = const Color(0xFF1565C0).withOpacity(0.05 + 0.05 * animation)
       ..style = PaintingStyle.fill;
 
     // Pencil body
@@ -413,33 +420,87 @@ class EducationBackgroundPainter extends CustomPainter {
     canvas.drawPath(path, pencilPaint);
   }
 
-  void drawGrid(Canvas canvas, Size size) {
-    final gridPaint = Paint()
-      ..color = const Color(0xFF1A237E).withOpacity(0.03)
+  void drawNotebook(
+      Canvas canvas, Offset position, double size, double animation) {
+    final notebookPaint = Paint()
+      ..color = const Color(0xFF1565C0).withOpacity(0.05 + 0.05 * animation)
+      ..style = PaintingStyle.fill;
+
+    // Notebook body
+    final path = Path();
+    path.moveTo(position.dx, position.dy);
+    path.lineTo(position.dx + size, position.dy);
+    path.lineTo(position.dx + size, position.dy + size * 1.3);
+    path.lineTo(position.dx, position.dy + size * 1.3);
+    path.close();
+
+    canvas.drawPath(path, notebookPaint);
+
+    // Notebook lines
+    final linePaint = Paint()
+      ..color = const Color(0xFF1565C0).withOpacity(0.05 + 0.05 * animation)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.5;
+      ..strokeWidth = 1;
 
-    // Horizontal lines
-    for (double y = 0; y < size.height; y += size.height / 20) {
+    for (int i = 1; i <= 5; i++) {
       canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        gridPaint,
-      );
-    }
-
-    // Vertical lines
-    for (double x = 0; x < size.width; x += size.width / 20) {
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, size.height),
-        gridPaint,
+        Offset(position.dx + size * 0.1, position.dy + size * 0.2 * i),
+        Offset(position.dx + size * 0.9, position.dy + size * 0.2 * i),
+        linePaint,
       );
     }
   }
 
+  void drawCalendar(
+      Canvas canvas, Offset position, double size, double animation) {
+    final calendarPaint = Paint()
+      ..color = const Color(0xFF1565C0).withOpacity(0.05 + 0.05 * animation)
+      ..style = PaintingStyle.fill;
+
+    // Calendar body
+    final path = Path();
+    path.moveTo(position.dx, position.dy);
+    path.lineTo(position.dx + size, position.dy);
+    path.lineTo(position.dx + size, position.dy + size);
+    path.lineTo(position.dx, position.dy + size);
+    path.close();
+
+    canvas.drawPath(path, calendarPaint);
+
+    // Calendar header
+    final headerPaint = Paint()
+      ..color = const Color(0xFF1565C0).withOpacity(0.1 + 0.05 * animation)
+      ..style = PaintingStyle.fill;
+
+    final headerPath = Path();
+    headerPath.moveTo(position.dx, position.dy);
+    headerPath.lineTo(position.dx + size, position.dy);
+    headerPath.lineTo(position.dx + size, position.dy + size * 0.2);
+    headerPath.lineTo(position.dx, position.dy + size * 0.2);
+    headerPath.close();
+
+    canvas.drawPath(headerPath, headerPaint);
+  }
+
+  void drawCirclesPattern(Canvas canvas, Size size) {
+    final patternPaint = Paint()
+      ..color = const Color(0xFF1565C0).withOpacity(0.02)
+      ..style = PaintingStyle.fill;
+
+    // Draw random circles
+    final random = math.Random(42); // Fixed seed for consistency
+    for (int i = 0; i < 15; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      final radius = (random.nextDouble() * 20 + 5) *
+          (0.5 + 0.5 * math.sin(animationValue * math.pi * 2 + i));
+
+      canvas.drawCircle(Offset(x, y), radius, patternPaint);
+    }
+  }
+
   @override
-  bool shouldRepaint(covariant EducationBackgroundPainter oldDelegate) {
+  bool shouldRepaint(covariant StudentBackgroundPainter oldDelegate) {
     return oldDelegate.animationValue != animationValue;
   }
 }
