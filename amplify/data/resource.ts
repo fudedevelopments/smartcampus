@@ -15,7 +15,7 @@ const schema = a.schema({
     Hod: a.string().required(),
     deviceToken: a.string().required(),
   }).authorization((allow) => [
-    allow.owner(),
+    allow.authenticated(),
     allow.groups(["STAFF", "ADMINS"]).to(['read'])
   ]),
   
@@ -33,12 +33,12 @@ const schema = a.schema({
   ]),
 
   onDutyModel: a.model({
-    id: a.id().required(),
     name: a.string().required(),
     regNo: a.string().required(),
     email: a.string().required(),
     department: a.string().required(),
     year: a.string().required(),
+    student: a.string().required(),
     Proctor: a.string().required(),
     Ac: a.string().required(),
     Hod: a.string().required(),
@@ -54,15 +54,15 @@ const schema = a.schema({
     createdAt: a.timestamp().required()
   })
     .secondaryIndexes((index) =>
-      [index('Hod').sortKeys(['createdAt']),
+      [
+        index('student').sortKeys(['createdAt']),
+        index('Hod').sortKeys(['createdAt']),
         index('Ac').sortKeys(['createdAt']),
         index('Proctor').sortKeys(['createdAt'])
       ])
     .authorization((allow) => [
-    allow.owner(),
-    allow.ownerDefinedIn('Proctor'),
-    allow.ownerDefinedIn('Ac'),
-    allow.ownerDefinedIn('Hod'),
+      allow.authenticated(),
+      allow.groups(['ADMINS', 'STAFF'])
     ]),
   
   EventsModel: a.model({

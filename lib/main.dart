@@ -98,11 +98,9 @@ class _MyAppState extends State<MyApp> {
       colorScheme: const ColorScheme.light(
         primary: NECColors.darkBlue,
         secondary: NECColors.mediumBlue,
-        background: Colors.white,
         surface: Colors.white,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
-        onBackground: Colors.black87,
         onSurface: Colors.black87,
       ),
       scaffoldBackgroundColor: Colors.white,

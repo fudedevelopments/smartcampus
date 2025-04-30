@@ -33,6 +33,7 @@ class onDutyModel extends amplify_core.Model {
   final String? _email;
   final String? _department;
   final String? _year;
+  final String? _student;
   final String? _Proctor;
   final String? _Ac;
   final String? _Hod;
@@ -116,6 +117,19 @@ class onDutyModel extends amplify_core.Model {
   String get year {
     try {
       return _year!;
+    } catch(e) {
+      throw amplify_core.AmplifyCodeGenModelException(
+          amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
+          recoverySuggestion:
+            amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastRecoverySuggestion,
+          underlyingException: e.toString()
+          );
+    }
+  }
+  
+  String get student {
+    try {
+      return _student!;
     } catch(e) {
       throw amplify_core.AmplifyCodeGenModelException(
           amplify_core.AmplifyExceptionMessages.codeGenRequiredFieldForceCastExceptionMessage,
@@ -290,9 +304,9 @@ class onDutyModel extends amplify_core.Model {
     return _updatedAt;
   }
   
-  const onDutyModel._internal({required this.id, required name, required regNo, required email, required department, required year, required Proctor, required Ac, required Hod, required eventname, required location, required date, details, required registeredUrl, required validDocuments, required proctorstatus, required AcStatus, required HodStatus, required createdAt, updatedAt}): _name = name, _regNo = regNo, _email = email, _department = department, _year = year, _Proctor = Proctor, _Ac = Ac, _Hod = Hod, _eventname = eventname, _location = location, _date = date, _details = details, _registeredUrl = registeredUrl, _validDocuments = validDocuments, _proctorstatus = proctorstatus, _AcStatus = AcStatus, _HodStatus = HodStatus, _createdAt = createdAt, _updatedAt = updatedAt;
+  const onDutyModel._internal({required this.id, required name, required regNo, required email, required department, required year, required student, required Proctor, required Ac, required Hod, required eventname, required location, required date, details, required registeredUrl, required validDocuments, required proctorstatus, required AcStatus, required HodStatus, required createdAt, updatedAt}): _name = name, _regNo = regNo, _email = email, _department = department, _year = year, _student = student, _Proctor = Proctor, _Ac = Ac, _Hod = Hod, _eventname = eventname, _location = location, _date = date, _details = details, _registeredUrl = registeredUrl, _validDocuments = validDocuments, _proctorstatus = proctorstatus, _AcStatus = AcStatus, _HodStatus = HodStatus, _createdAt = createdAt, _updatedAt = updatedAt;
   
-  factory onDutyModel({String? id, required String name, required String regNo, required String email, required String department, required String year, required String Proctor, required String Ac, required String Hod, required String eventname, required String location, required amplify_core.TemporalDate date, String? details, required String registeredUrl, required List<String> validDocuments, required String proctorstatus, required String AcStatus, required String HodStatus, required amplify_core.TemporalTimestamp createdAt}) {
+  factory onDutyModel({String? id, required String name, required String regNo, required String email, required String department, required String year, required String student, required String Proctor, required String Ac, required String Hod, required String eventname, required String location, required amplify_core.TemporalDate date, String? details, required String registeredUrl, required List<String> validDocuments, required String proctorstatus, required String AcStatus, required String HodStatus, required amplify_core.TemporalTimestamp createdAt}) {
     return onDutyModel._internal(
       id: id == null ? amplify_core.UUID.getUUID() : id,
       name: name,
@@ -300,6 +314,7 @@ class onDutyModel extends amplify_core.Model {
       email: email,
       department: department,
       year: year,
+      student: student,
       Proctor: Proctor,
       Ac: Ac,
       Hod: Hod,
@@ -329,6 +344,7 @@ class onDutyModel extends amplify_core.Model {
       _email == other._email &&
       _department == other._department &&
       _year == other._year &&
+      _student == other._student &&
       _Proctor == other._Proctor &&
       _Ac == other._Ac &&
       _Hod == other._Hod &&
@@ -358,6 +374,7 @@ class onDutyModel extends amplify_core.Model {
     buffer.write("email=" + "$_email" + ", ");
     buffer.write("department=" + "$_department" + ", ");
     buffer.write("year=" + "$_year" + ", ");
+    buffer.write("student=" + "$_student" + ", ");
     buffer.write("Proctor=" + "$_Proctor" + ", ");
     buffer.write("Ac=" + "$_Ac" + ", ");
     buffer.write("Hod=" + "$_Hod" + ", ");
@@ -377,7 +394,7 @@ class onDutyModel extends amplify_core.Model {
     return buffer.toString();
   }
   
-  onDutyModel copyWith({String? name, String? regNo, String? email, String? department, String? year, String? Proctor, String? Ac, String? Hod, String? eventname, String? location, amplify_core.TemporalDate? date, String? details, String? registeredUrl, List<String>? validDocuments, String? proctorstatus, String? AcStatus, String? HodStatus, amplify_core.TemporalTimestamp? createdAt}) {
+  onDutyModel copyWith({String? name, String? regNo, String? email, String? department, String? year, String? student, String? Proctor, String? Ac, String? Hod, String? eventname, String? location, amplify_core.TemporalDate? date, String? details, String? registeredUrl, List<String>? validDocuments, String? proctorstatus, String? AcStatus, String? HodStatus, amplify_core.TemporalTimestamp? createdAt}) {
     return onDutyModel._internal(
       id: id,
       name: name ?? this.name,
@@ -385,6 +402,7 @@ class onDutyModel extends amplify_core.Model {
       email: email ?? this.email,
       department: department ?? this.department,
       year: year ?? this.year,
+      student: student ?? this.student,
       Proctor: Proctor ?? this.Proctor,
       Ac: Ac ?? this.Ac,
       Hod: Hod ?? this.Hod,
@@ -406,6 +424,7 @@ class onDutyModel extends amplify_core.Model {
     ModelFieldValue<String>? email,
     ModelFieldValue<String>? department,
     ModelFieldValue<String>? year,
+    ModelFieldValue<String>? student,
     ModelFieldValue<String>? Proctor,
     ModelFieldValue<String>? Ac,
     ModelFieldValue<String>? Hod,
@@ -427,6 +446,7 @@ class onDutyModel extends amplify_core.Model {
       email: email == null ? this.email : email.value,
       department: department == null ? this.department : department.value,
       year: year == null ? this.year : year.value,
+      student: student == null ? this.student : student.value,
       Proctor: Proctor == null ? this.Proctor : Proctor.value,
       Ac: Ac == null ? this.Ac : Ac.value,
       Hod: Hod == null ? this.Hod : Hod.value,
@@ -450,6 +470,7 @@ class onDutyModel extends amplify_core.Model {
       _email = json['email'],
       _department = json['department'],
       _year = json['year'],
+      _student = json['student'],
       _Proctor = json['Proctor'],
       _Ac = json['Ac'],
       _Hod = json['Hod'],
@@ -466,7 +487,7 @@ class onDutyModel extends amplify_core.Model {
       _updatedAt = json['updatedAt'] != null ? amplify_core.TemporalDateTime.fromString(json['updatedAt']) : null;
   
   Map<String, dynamic> toJson() => {
-    'id': id, 'name': _name, 'regNo': _regNo, 'email': _email, 'department': _department, 'year': _year, 'Proctor': _Proctor, 'Ac': _Ac, 'Hod': _Hod, 'eventname': _eventname, 'location': _location, 'date': _date?.format(), 'details': _details, 'registeredUrl': _registeredUrl, 'validDocuments': _validDocuments, 'proctorstatus': _proctorstatus, 'AcStatus': _AcStatus, 'HodStatus': _HodStatus, 'createdAt': _createdAt?.toSeconds(), 'updatedAt': _updatedAt?.format()
+    'id': id, 'name': _name, 'regNo': _regNo, 'email': _email, 'department': _department, 'year': _year, 'student': _student, 'Proctor': _Proctor, 'Ac': _Ac, 'Hod': _Hod, 'eventname': _eventname, 'location': _location, 'date': _date?.format(), 'details': _details, 'registeredUrl': _registeredUrl, 'validDocuments': _validDocuments, 'proctorstatus': _proctorstatus, 'AcStatus': _AcStatus, 'HodStatus': _HodStatus, 'createdAt': _createdAt?.toSeconds(), 'updatedAt': _updatedAt?.format()
   };
   
   Map<String, Object?> toMap() => {
@@ -476,6 +497,7 @@ class onDutyModel extends amplify_core.Model {
     'email': _email,
     'department': _department,
     'year': _year,
+    'student': _student,
     'Proctor': _Proctor,
     'Ac': _Ac,
     'Hod': _Hod,
@@ -499,6 +521,7 @@ class onDutyModel extends amplify_core.Model {
   static final EMAIL = amplify_core.QueryField(fieldName: "email");
   static final DEPARTMENT = amplify_core.QueryField(fieldName: "department");
   static final YEAR = amplify_core.QueryField(fieldName: "year");
+  static final STUDENT = amplify_core.QueryField(fieldName: "student");
   static final PROCTOR = amplify_core.QueryField(fieldName: "Proctor");
   static final AC = amplify_core.QueryField(fieldName: "Ac");
   static final HOD = amplify_core.QueryField(fieldName: "Hod");
@@ -518,10 +541,7 @@ class onDutyModel extends amplify_core.Model {
     
     modelSchemaDefinition.authRules = [
       amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "owner",
-        identityClaim: "cognito:username",
-        provider: amplify_core.AuthRuleProvider.USERPOOLS,
+        authStrategy: amplify_core.AuthStrategy.PRIVATE,
         operations: const [
           amplify_core.ModelOperation.CREATE,
           amplify_core.ModelOperation.UPDATE,
@@ -529,31 +549,9 @@ class onDutyModel extends amplify_core.Model {
           amplify_core.ModelOperation.READ
         ]),
       amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "Proctor",
-        identityClaim: "cognito:username",
-        provider: amplify_core.AuthRuleProvider.USERPOOLS,
-        operations: const [
-          amplify_core.ModelOperation.CREATE,
-          amplify_core.ModelOperation.UPDATE,
-          amplify_core.ModelOperation.DELETE,
-          amplify_core.ModelOperation.READ
-        ]),
-      amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "Ac",
-        identityClaim: "cognito:username",
-        provider: amplify_core.AuthRuleProvider.USERPOOLS,
-        operations: const [
-          amplify_core.ModelOperation.CREATE,
-          amplify_core.ModelOperation.UPDATE,
-          amplify_core.ModelOperation.DELETE,
-          amplify_core.ModelOperation.READ
-        ]),
-      amplify_core.AuthRule(
-        authStrategy: amplify_core.AuthStrategy.OWNER,
-        ownerField: "Hod",
-        identityClaim: "cognito:username",
+        authStrategy: amplify_core.AuthStrategy.GROUPS,
+        groupClaim: "cognito:groups",
+        groups: [ "ADMINS", "STAFF" ],
         provider: amplify_core.AuthRuleProvider.USERPOOLS,
         operations: const [
           amplify_core.ModelOperation.CREATE,
@@ -564,7 +562,7 @@ class onDutyModel extends amplify_core.Model {
     ];
     
     modelSchemaDefinition.indexes = [
-      amplify_core.ModelIndex(fields: const ["id"], name: null),
+      amplify_core.ModelIndex(fields: const ["student", "createdAt"], name: "onDutyModelsByStudentAndCreatedAt"),
       amplify_core.ModelIndex(fields: const ["Proctor", "createdAt"], name: "onDutyModelsByProctorAndCreatedAt"),
       amplify_core.ModelIndex(fields: const ["Ac", "createdAt"], name: "onDutyModelsByAcAndCreatedAt"),
       amplify_core.ModelIndex(fields: const ["Hod", "createdAt"], name: "onDutyModelsByHodAndCreatedAt")
@@ -598,6 +596,12 @@ class onDutyModel extends amplify_core.Model {
     
     modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
       key: onDutyModel.YEAR,
+      isRequired: true,
+      ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
+    ));
+    
+    modelSchemaDefinition.addField(amplify_core.ModelFieldDefinition.field(
+      key: onDutyModel.STUDENT,
       isRequired: true,
       ofType: amplify_core.ModelFieldType(amplify_core.ModelFieldTypeEnum.string)
     ));

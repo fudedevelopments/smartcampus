@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:smartcampus/bloc/userprofile_bloc.dart';
 import 'package:smartcampus/models/StudentsUserProfile.dart';
 import 'package:smartcampus/models/ModelProvider.dart';
-import 'package:smartcampus/onduty/ui/ondutyUI.dart';
 import 'package:smartcampus/onduty/repo/ondutyrepo.dart';
 import 'package:intl/intl.dart';
 
@@ -42,6 +41,9 @@ class OnDutyController extends GetxController {
   final errorMessage = ''.obs;
   final isSuccess = false.obs;
 
+  // Student ID
+  String studentId = '';
+
   // Load student information from UserprofileBloc
   @override
   void onInit() {
@@ -60,12 +62,12 @@ class OnDutyController extends GetxController {
         final state = BlocProvider.of<UserprofileBloc>(context).state;
         if (state is UserProfileSucessState) {
           studentProfile.value = state.userProfile;
-          // Fill form fields with user data
           studentNameController.text = state.userProfile.name;
           emailController.text = state.userProfile.email;
           regNo = state.userProfile.regNo;
           department = state.userProfile.department;
           year = state.userProfile.year;
+          studentId = state.userProfile.id;
           proctor = state.userProfile.Proctor;
           ac = state.userProfile.Ac;
           hod = state.userProfile.Hod;
@@ -125,7 +127,8 @@ class OnDutyController extends GetxController {
         regNo: regNo, // From user profile
         email: emailController.text,
         department: department, // From user profile
-        year: year, // From user profile
+        year: year,
+        student: studentId,
         proctor: proctor, // From user profile
         ac: ac, // From user profile
         hod: hod, // From user profile
